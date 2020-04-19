@@ -26,6 +26,7 @@
 		0EC6BEEE244AF697004242AC /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC6BEED244AF697004242AC /* HomeCollectionViewCell.swift */; };
 		0EC6BF3B244C5EC5004242AC /* TimelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC6BF3A244C5EC5004242AC /* TimelineViewController.swift */; };
 		0EC6BF3D244C5EE5004242AC /* TimelineCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC6BF3C244C5EE5004242AC /* TimelineCollectionViewCell.swift */; };
+		0EC6BF40244C8F32004242AC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC6BF3F244C8F32004242AC /* ProfileViewController.swift */; };
 		0EF024A12445865000C97183 /* HomeTab.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EF024A02445865000C97183 /* HomeTab.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -96,6 +97,7 @@
 		0EC6BF38244B0041004242AC /* 18.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 18.jpeg; sourceTree = "<group>"; };
 		0EC6BF3A244C5EC5004242AC /* TimelineViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineViewController.swift; sourceTree = "<group>"; };
 		0EC6BF3C244C5EE5004242AC /* TimelineCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineCollectionViewCell.swift; sourceTree = "<group>"; };
+		0EC6BF3F244C8F32004242AC /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		0EF024A02445865000C97183 /* HomeTab.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HomeTab.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -147,6 +149,7 @@
 		0E86B4A52426043A0094E6D3 /* onion-dev */ = {
 			isa = PBXGroup;
 			children = (
+				0EC6BF3E244C8F0A004242AC /* Profile */,
 				0EC6BF39244C5EA3004242AC /* Timeline */,
 				0EC6BEF0244AFF79004242AC /* Resource */,
 				0EC6BEE8244AEE6C004242AC /* Home */,
@@ -274,6 +277,14 @@
 				0EC6BF3C244C5EE5004242AC /* TimelineCollectionViewCell.swift */,
 			);
 			path = Timeline;
+			sourceTree = "<group>";
+		};
+		0EC6BF3E244C8F0A004242AC /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				0EC6BF3F244C8F32004242AC /* ProfileViewController.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -420,6 +431,7 @@
 				0E86B4DC24275C820094E6D3 /* RegisterViewController.swift in Sources */,
 				0EC6BF3B244C5EC5004242AC /* TimelineViewController.swift in Sources */,
 				0E86B4E32427B3730094E6D3 /* User.swift in Sources */,
+				0EC6BF40244C8F32004242AC /* ProfileViewController.swift in Sources */,
 				0EC6BEEC244AF045004242AC /* HomeViewController.swift in Sources */,
 				0EC6BEEE244AF697004242AC /* HomeCollectionViewCell.swift in Sources */,
 			);

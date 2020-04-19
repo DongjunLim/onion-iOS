@@ -28,3 +28,31 @@ class TimelineViewController: UIViewController {
     */
 
 }
+
+extension TimelineViewController: UICollectionViewDataSource {
+    // 몇개 표시 할까?
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("1")
+        return 24
+    }
+    
+    // 셀 어떻게 표시 할까?
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TimelineCollectionViewCell", for: indexPath) as? TimelineCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        let image: UIImage = UIImage(named:"\(indexPath[1]+1).jpg")!
+        cell.thumbnail.image = image
+        return cell
+    }
+}
+
+extension TimelineViewController: UICollectionViewDelegateFlowLayout {
+    // 셀 사이즈 어떻게 할까?
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = 135
+        let height = Float(width) * 1.7
+        
+        return CGSize(width: 135, height: Int(height))
+    }
+}

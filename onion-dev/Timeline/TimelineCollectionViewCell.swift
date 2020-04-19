@@ -10,4 +10,12 @@ import UIKit
 
 class TimelineCollectionViewCell: UICollectionViewCell {
     
+    @IBOutlet weak var thumbnail: UIImageView!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+
+    }
+    
+    
 }
