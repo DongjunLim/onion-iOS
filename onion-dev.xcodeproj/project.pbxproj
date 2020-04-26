@@ -22,6 +22,10 @@
 		0E86B4EA24284EAC0094E6D3 /* OptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E86B4E924284EAC0094E6D3 /* OptionViewController.swift */; };
 		0E86B4EC24288E630094E6D3 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E86B4EB24288E630094E6D3 /* UserManager.swift */; };
 		0E86B4EE2428987A0094E6D3 /* RegisterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E86B4ED2428987A0094E6D3 /* RegisterManager.swift */; };
+		0EC3788124556A26002B7D78 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC3788024556A26002B7D78 /* TabBarViewController.swift */; };
+		0EC3788424557A7B002B7D78 /* FeedDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC3788324557A7B002B7D78 /* FeedDetailViewController.swift */; };
+		0EC378862455818F002B7D78 /* RelativeThumbnailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC378852455818F002B7D78 /* RelativeThumbnailCollectionViewCell.swift */; };
+		0EC3788824558CA7002B7D78 /* FeedCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC3788724558CA7002B7D78 /* FeedCollectionReusableView.swift */; };
 		0EC6BEEC244AF045004242AC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC6BEEB244AF045004242AC /* HomeViewController.swift */; };
 		0EC6BEEE244AF697004242AC /* HomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC6BEED244AF697004242AC /* HomeCollectionViewCell.swift */; };
 		0EC6BF3B244C5EC5004242AC /* TimelineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC6BF3A244C5EC5004242AC /* TimelineViewController.swift */; };
@@ -69,6 +73,10 @@
 		0E86B4E924284EAC0094E6D3 /* OptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionViewController.swift; sourceTree = "<group>"; };
 		0E86B4EB24288E630094E6D3 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		0E86B4ED2428987A0094E6D3 /* RegisterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterManager.swift; sourceTree = "<group>"; };
+		0EC3788024556A26002B7D78 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		0EC3788324557A7B002B7D78 /* FeedDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDetailViewController.swift; sourceTree = "<group>"; };
+		0EC378852455818F002B7D78 /* RelativeThumbnailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelativeThumbnailCollectionViewCell.swift; sourceTree = "<group>"; };
+		0EC3788724558CA7002B7D78 /* FeedCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCollectionReusableView.swift; sourceTree = "<group>"; };
 		0EC6BEEB244AF045004242AC /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		0EC6BEED244AF697004242AC /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		0EC6BF21244B003F004242AC /* 1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpg; sourceTree = "<group>"; };
@@ -149,6 +157,8 @@
 		0E86B4A52426043A0094E6D3 /* onion-dev */ = {
 			isa = PBXGroup;
 			children = (
+				0EC3788224557A5F002B7D78 /* FeedDetail */,
+				0EC3787F24556A03002B7D78 /* TabBar */,
 				0EC6BF3E244C8F0A004242AC /* Profile */,
 				0EC6BF39244C5EA3004242AC /* Timeline */,
 				0EC6BEF0244AFF79004242AC /* Resource */,
@@ -228,6 +238,24 @@
 			children = (
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		0EC3787F24556A03002B7D78 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				0EC3788024556A26002B7D78 /* TabBarViewController.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		0EC3788224557A5F002B7D78 /* FeedDetail */ = {
+			isa = PBXGroup;
+			children = (
+				0EC3788324557A7B002B7D78 /* FeedDetailViewController.swift */,
+				0EC378852455818F002B7D78 /* RelativeThumbnailCollectionViewCell.swift */,
+				0EC3788724558CA7002B7D78 /* FeedCollectionReusableView.swift */,
+			);
+			path = FeedDetail;
 			sourceTree = "<group>";
 		};
 		0EC6BEE8244AEE6C004242AC /* Home */ = {
@@ -419,6 +447,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EC3788124556A26002B7D78 /* TabBarViewController.swift in Sources */,
 				0E86B4EE2428987A0094E6D3 /* RegisterManager.swift in Sources */,
 				0E86B4EC24288E630094E6D3 /* UserManager.swift in Sources */,
 				0EC6BF3D244C5EE5004242AC /* TimelineCollectionViewCell.swift in Sources */,
@@ -429,11 +458,14 @@
 				0E86B4A92426043A0094E6D3 /* SceneDelegate.swift in Sources */,
 				0E86B4EA24284EAC0094E6D3 /* OptionViewController.swift in Sources */,
 				0E86B4DC24275C820094E6D3 /* RegisterViewController.swift in Sources */,
+				0EC3788824558CA7002B7D78 /* FeedCollectionReusableView.swift in Sources */,
+				0EC3788424557A7B002B7D78 /* FeedDetailViewController.swift in Sources */,
 				0EC6BF3B244C5EC5004242AC /* TimelineViewController.swift in Sources */,
 				0E86B4E32427B3730094E6D3 /* User.swift in Sources */,
 				0EC6BF40244C8F32004242AC /* ProfileViewController.swift in Sources */,
 				0EC6BEEC244AF045004242AC /* HomeViewController.swift in Sources */,
 				0EC6BEEE244AF697004242AC /* HomeCollectionViewCell.swift in Sources */,
+				0EC378862455818F002B7D78 /* RelativeThumbnailCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

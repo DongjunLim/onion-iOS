@@ -1,38 +1,22 @@
 //
-//  HomeViewController.swift
+//  FeedDetailViewController.swift
 //  onion-dev
 //
-//  Created by 임동준 on 2020/04/18.
+//  Created by 임동준 on 2020/04/26.
 //  Copyright © 2020 lacuna. All rights reserved.
 //
 
 import UIKit
 
-class HomeViewController: UIViewController {
+class FeedDetailViewController: UIViewController {
 
-    
-    @IBOutlet weak var thumbnailCollectionView: UICollectionView!
-    @IBOutlet weak var searchBar: UISearchBar!
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchBar.searchTextField.backgroundColor = UIColor.white
         
+        // Do any additional setup after loading the view.
     }
     
 
-    @IBAction func swipeAction(_ sender: UISwipeGestureRecognizer) {
-        if(sender.direction == .left){
-            print("swipe Left")
-        } else if(sender.direction == .right){
-            print("swipe Right")
-        } else if(sender.direction == .up){
-            print("swipe Up")
-        } else if(sender.direction == .down){
-            print("swipe down")
-        }
-        
-        self.view.endEditing(true)
-    }
     /*
     // MARK: - Navigation
 
@@ -42,9 +26,11 @@ class HomeViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+
 }
 
-extension HomeViewController: UICollectionViewDataSource {
+
+extension FeedDetailViewController: UICollectionViewDataSource {
     // 몇개 표시 할까?
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 24
@@ -52,7 +38,7 @@ extension HomeViewController: UICollectionViewDataSource {
     
     // 셀 어떻게 표시 할까?
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RelativeThumbnailCollectionViewCell", for: indexPath) as? RelativeThumbnailCollectionViewCell else {
             return UICollectionViewCell()
         }
         let url = URL(string: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/\(indexPath[1]+1).jpeg")
@@ -71,9 +57,27 @@ extension HomeViewController: UICollectionViewDataSource {
         cell.thumbnail.layer.cornerRadius = 5
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView{
+        switch kind{
+        case UICollectionView.elementKindSectionHeader:
+            guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "FeedCollectionReusableView", for: indexPath) as? FeedCollectionReusableView else {
+                return UICollectionReusableView()
+            }
+            header.followButton.layer.borderWidth = 1
+            header.followButton.layer.borderColor = UIColor.black.cgColor
+            header.followButton.layer.cornerRadius = 5
+            return header
+        default:
+            return UICollectionReusableView()
+        }
+       
+        
+        
+    }
 }
 
-extension HomeViewController: UICollectionViewDelegateFlowLayout {
+extension FeedDetailViewController: UICollectionViewDelegateFlowLayout {
     // 셀 사이즈 어떻게 할까?
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         // 20 - card(width) - 20 - card(width) - 20
@@ -83,6 +87,8 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 //        let width = (collectionView.bounds.width -  itemSpacing - margin * 2) / 2
 //        let height = width + 60
         
-        return CGSize(width: 125, height: 175)
+        return CGSize(width: 135, height: 180)
     }
 }
+
+
