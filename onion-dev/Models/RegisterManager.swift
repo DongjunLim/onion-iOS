@@ -9,51 +9,102 @@
 import Foundation
 
 class RegisterManager {
-    var checkedEmail: Bool?
+    var emailVerify: Bool
     let semaphore: DispatchSemaphore?
     init(){
-        self.checkedEmail = false
+        self.emailVerify = false
         self.semaphore = DispatchSemaphore(value: 0)
         return
     }
     
-    
-    func verifyEmail(key: String, value: String) -> Void{
+    func verifyEmail (value: String, completion: @escaping (Int) -> Void){
+        let session = URLSession(configuration: .default)
+        var urlComponents = URLComponents(string: "http://127.0.0.1:3000/account/check-email?")!
+        let emailQuery = URLQueryItem(name: "userEmail", value: value)
+        urlComponents.queryItems?.append(emailQuery)
         
-        if let url = URL(string: "http://127.0.0.1:3000/account/check/?\(String(key))=\(String(value))") {
-            print(url)
-            let session = URLSession(configuration: .default)
-            let task = session.dataTask(with: url) { (data,response,error) in
-                if error != nil {
-                    print(error!)
+        let requestURL = urlComponents.url!
+        
+        let dataTask = session.dataTask(with: requestURL) { data, response, error in
+            let successRange = 200..<300
+            guard error == nil, let statusCode = (response as? HTTPURLResponse)?.statusCode,
+                successRange.contains(statusCode) else {
                     return
-                }
-                if let safeData = data {
-                    let dataString = String(data: safeData, encoding: .utf8)
-                    print(dataString!)
-                    guard let httpResponse = response as? HTTPURLResponse,
-                        (200...299).contains(httpResponse.statusCode) else { return }
-                    if httpResponse.statusCode == 204 {
-                        self.checkedEmail = true
-                    } else {
-                        self.checkedEmail = false
-                    }
-                }
-                self.semaphore!.signal()
             }
-            task.resume()
-            self.semaphore!.wait()
+            completion(statusCode)
+            return
         }
-        return
+        dataTask.resume()
     }
+    
+    func verifyNickname (value: String, completion: @escaping (Int) -> Void){
+        let session = URLSession(configuration: .default)
+        var urlComponents = URLComponents(string: "http://127.0.0.1:3000/account/check-nickname?")!
+        let nicknameQuery = URLQueryItem(name: "userNickname", value: value)
+        urlComponents.queryItems?.append(nicknameQuery)
+        
+        let requestURL = urlComponents.url!
+        
+        let dataTask = session.dataTask(with: requestURL) { data, response, error in
+            let successRange = 200..<300
+            guard error == nil, let statusCode = (response as? HTTPURLResponse)?.statusCode,
+                successRange.contains(statusCode) else {
+                    return
+            }
+            completion(statusCode)
+            return
+        }
+        dataTask.resume()
+    }
+    
     
     func join(email: String, id: String, pw: String){
-        if let url = URL(string: "http://127.0.0.1:3000/account/register/"){
-            let session = URLSession(configuration: .default)
-            let task = session.dataTask(with: url) { (data, response, error) in
-                
-                
+        
+        let urlComponents = URLComponents(string: "http://127.0.0.1:3000/account/register?")!
+        let requestURL = urlComponents.url!
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "POST"
+
+        let parameters: [String: Any] = [
+            "userEmail": email,
+            "userNickname": id,
+            "userPassword": pw
+        ]
+        request.httpBody = parameters.percentEncoded()
+        
+        
+        let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
+            let successRange = 200..<300
+            guard error == nil, let statusCode = (response as? HTTPURLResponse)?.statusCode,
+                successRange.contains(statusCode) else {
+                    return
             }
+            
         }
+        dataTask.resume()
+        
     }
+}
+
+extension Dictionary {
+    func percentEncoded() -> Data? {
+        return map { key, value in
+            let escapedKey = "\(key)".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
+            let escapedValue = "\(value)".addingPercentEncoding(withAllowedCharacters: .urlQueryValueAllowed) ?? ""
+            return escapedKey + "=" + escapedValue
+        }
+        .joined(separator: "&")
+        .data(using: .utf8)
+    }
+}
+
+extension CharacterSet {
+    static let urlQueryValueAllowed: CharacterSet = {
+        let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
+        let subDelimitersToEncode = "!$&'()*+,;="
+
+        var allowed = CharacterSet.urlQueryAllowed
+        allowed.remove(charactersIn: "\(generalDelimitersToEncode)\(subDelimitersToEncode)")
+        return allowed
+    }()
 }

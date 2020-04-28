@@ -12,6 +12,7 @@ class TimelineCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var thumbnail: UIImageView!
     
+    @IBOutlet weak var goToFeedDetailButton: UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()
 

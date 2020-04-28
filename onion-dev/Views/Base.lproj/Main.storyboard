@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="JFk-wB-9Mt">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -69,22 +69,23 @@
                         <outlet property="emailTextField" destination="lZP-Cv-09Z" id="yej-CN-fyk"/>
                         <outlet property="pwTextField" destination="3BS-jh-kDd" id="uE0-9I-I26"/>
                         <segue destination="X1n-12-zW3" kind="presentation" identifier="goToRegisterNavigation" id="xet-dp-afP"/>
+                        <segue destination="poM-Fn-5CJ" kind="presentation" identifier="goToHomeViewSegue" animates="NO" id="Vpi-Hu-Rxh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1529" y="-656"/>
+            <point key="canvasLocation" x="-1264" y="165"/>
         </scene>
         <!--Feed Detail View Controller-->
         <scene sceneID="IhN-N4-Vb4">
             <objects>
                 <viewController wantsFullScreenLayout="YES" id="JFk-wB-9Mt" customClass="FeedDetailViewController" customModule="onion_dev" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Lia-EL-f1R">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="scrollableAxes" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="6QO-qw-6ZB">
-                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                                <rect key="frame" x="0.0" y="-44" width="414" height="886"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="f6Z-nu-tRO">
                                     <size key="itemSize" width="135" height="180"/>
@@ -196,14 +197,14 @@
                             <constraint firstItem="9r1-Q1-tun" firstAttribute="trailing" secondItem="6QO-qw-6ZB" secondAttribute="trailing" id="2du-Tv-z2h"/>
                             <constraint firstItem="6QO-qw-6ZB" firstAttribute="leading" secondItem="9r1-Q1-tun" secondAttribute="leading" id="b8f-pb-7jV"/>
                             <constraint firstItem="6QO-qw-6ZB" firstAttribute="bottom" secondItem="9r1-Q1-tun" secondAttribute="bottom" constant="34" id="lEr-E3-RQn"/>
-                            <constraint firstItem="6QO-qw-6ZB" firstAttribute="top" secondItem="9r1-Q1-tun" secondAttribute="top" id="p5l-eB-e0O"/>
+                            <constraint firstItem="6QO-qw-6ZB" firstAttribute="top" secondItem="9r1-Q1-tun" secondAttribute="top" constant="-44" id="p5l-eB-e0O"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="9r1-Q1-tun"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bIh-mj-J5c" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2204.3478260869565" y="103.79464285714285"/>
+            <point key="canvasLocation" x="-642" y="1732"/>
         </scene>
         <!--HomeView-->
         <scene sceneID="kWT-KR-aCi">
@@ -238,6 +239,13 @@
                                                         <constraint firstAttribute="width" secondItem="j3C-1G-2tB" secondAttribute="height" multiplier="1:1.4" id="HOe-qz-47E"/>
                                                     </constraints>
                                                 </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qtS-c6-KxL">
+                                                    <rect key="frame" x="0.0" y="0.0" width="135" height="180"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <connections>
+                                                        <action selector="goToFeedDetailView:" destination="tHA-eS-Jbv" eventType="touchUpInside" id="c3E-2P-RO2"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="j3C-1G-2tB" firstAttribute="top" secondItem="v1B-UA-jXz" secondAttribute="top" id="EUI-ui-Uua"/>
@@ -247,6 +255,7 @@
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
+                                            <outlet property="ThumbnailImageButton" destination="qtS-c6-KxL" id="ssN-TG-tGv"/>
                                             <outlet property="thumbnail" destination="j3C-1G-2tB" id="7Pe-cF-UpY"/>
                                         </connections>
                                     </collectionViewCell>
@@ -264,6 +273,9 @@
                                 <scopeButtonTitles>
                                     <string>Title</string>
                                 </scopeButtonTitles>
+                                <connections>
+                                    <outlet property="delegate" destination="tHA-eS-Jbv" id="LJa-38-wUh"/>
+                                </connections>
                             </searchBar>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -286,6 +298,7 @@
                     <connections>
                         <outlet property="searchBar" destination="ph3-qt-ThE" id="z3G-yv-bZD"/>
                         <outlet property="thumbnailCollectionView" destination="hoF-pl-dWf" id="qwU-Cp-IMt"/>
+                        <segue destination="JFk-wB-9Mt" kind="presentation" identifier="goToFeedDetailViewHome" id="MHi-k1-Jjd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="D1w-DS-0ru" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -295,7 +308,7 @@
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-642.02898550724638" y="164.73214285714286"/>
+            <point key="canvasLocation" x="-1530" y="895"/>
         </scene>
         <!--UploadView-->
         <scene sceneID="wXp-BK-TsT">
@@ -351,7 +364,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pLb-R6-ML2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1239" y="870"/>
+            <point key="canvasLocation" x="1157" y="895"/>
         </scene>
         <!--TimelineView-->
         <scene sceneID="8DS-1X-YKm">
@@ -415,6 +428,13 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d4I-xB-UOK">
+                                                    <rect key="frame" x="2" y="38" width="133" height="184"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <connections>
+                                                        <action selector="thumbnailPressed:" destination="rRo-8q-bhR" eventType="touchUpInside" id="cDf-N2-bXC"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="1H1-jK-qN7" secondAttribute="bottom" constant="177" id="42b-st-A2x"/>
@@ -432,6 +452,7 @@
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="135" height="222"/>
                                         <connections>
+                                            <outlet property="goToFeedDetailButton" destination="d4I-xB-UOK" id="swL-To-Ec6"/>
                                             <outlet property="thumbnail" destination="dOY-0F-bxo" id="KO4-MC-sbR"/>
                                         </connections>
                                     </collectionViewCell>
@@ -456,6 +477,9 @@
                         <viewLayoutGuide key="safeArea" id="75f-NH-04l"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="person.icloud.fill" catalog="system" id="NME-GQ-zHs"/>
+                    <connections>
+                        <segue destination="JFk-wB-9Mt" kind="presentation" identifier="goToFeedDetailViewTimeline" id="IQt-sc-PfO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a8R-x4-yF6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -464,7 +488,7 @@
         <!--Tab Bar View Controller-->
         <scene sceneID="zgO-DQ-MMX">
             <objects>
-                <tabBarController id="poM-Fn-5CJ" customClass="TabBarViewController" customModule="onion_dev" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController modalPresentationStyle="fullScreen" id="poM-Fn-5CJ" customClass="TabBarViewController" customModule="onion_dev" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Zpf-4V-1Xg">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -574,7 +598,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vpq-Z8-nc8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1239.1304347826087" y="185.49107142857142"/>
+            <point key="canvasLocation" x="1186" y="165"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="iki-qP-rbi">
@@ -874,6 +898,9 @@
             <point key="canvasLocation" x="372.46376811594206" y="-656.25"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="MHi-k1-Jjd"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="15" width="600" height="700"/>
         <image name="chevron.right.circle" catalog="system" width="128" height="121"/>

@@ -22,8 +22,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func loginButtonPressed(_ sender: UIButton) {
-        
+        let homeVC = HomeViewController()
+        homeVC.modalPresentationStyle = .fullScreen
+        self.performSegue(withIdentifier: "goToHomeViewSegue", sender: self)
     }
+    
+    
     
     @IBAction func RegisterButtonPressed(_ sender: UIButton) {
         let registerVC = RegisterViewController()

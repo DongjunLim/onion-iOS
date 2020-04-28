@@ -17,16 +17,19 @@ class TimelineViewController: UIViewController {
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func thumbnailPressed(_ sender: UIButton) {
+        let FeedDetailVC = FeedDetailViewController()
+        FeedDetailVC.modalPresentationStyle = .fullScreen
+        self.performSegue(withIdentifier: "goToFeedDetailViewTimeline", sender: self)
     }
-    */
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        if segue.identifier == "goToFeedDetailViewTimeline" {
+            
+        }
+    }
 
+    
 }
 
 extension TimelineViewController: UICollectionViewDataSource {

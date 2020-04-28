@@ -7,6 +7,7 @@
 //
 
 import UIKit
+
 extension String {
     func validateEmail() -> Bool {
         let emailRegEx = "^.+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2}[A-Za-z]*$"
@@ -34,7 +35,7 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         registerManager = RegisterManager()
-
+        
         nextButton.layer.borderColor = UIColor.black.cgColor
         nextButton.layer.borderWidth = 1
         nextButton.layer.cornerRadius = 5
@@ -42,19 +43,23 @@ class RegisterViewController: UIViewController {
     
     @IBAction func nextButtonPressed(_ sender: UIButton) {
         let email = emailField.text!
-        registerManager!.verifyEmail(key: "email",value: email)
-        print(email.validatePassword())
         if email.validateEmail() {
-            if registerManager!.checkedEmail! {
-                let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "InputAccountViewController") as! InputAccountViewController
-                nextVC.userInfo["userEmail"] = email
-                self.navigationController?.pushViewController(nextVC, animated: true)
-            } else {
-                errorMassage.text = "이미 존재하는 이메일입니다."
-                errorMassage.isHidden = false
-                emailField.layer.borderColor = UIColor.red.cgColor
-                emailField.layer.borderWidth = 1
-                emailField.layer.cornerRadius = 5
+            registerManager!.verifyEmail(value: email) { completion in
+                if completion == 202{
+                    DispatchQueue.main.async{
+                        let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "InputAccountViewController") as! InputAccountViewController
+                        nextVC.userInfo["userEmail"] = email
+                        self.navigationController?.pushViewController(nextVC, animated: true)
+                    }
+                } else{
+                    DispatchQueue.main.async{
+                        self.errorMassage.text = "이미 존재하는 이메일입니다."
+                        self.errorMassage.isHidden = false
+                        self.emailField.layer.borderColor = UIColor.red.cgColor
+                        self.emailField.layer.borderWidth = 1
+                        self.emailField.layer.cornerRadius = 5
+                    }
+                }
             }
         } else {
             errorMassage.text = "올바른 이메일 주소를 입력하세요."

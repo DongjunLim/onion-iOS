@@ -33,6 +33,19 @@ class HomeViewController: UIViewController {
         
         self.view.endEditing(true)
     }
+    
+    
+    @IBAction func goToFeedDetailView(_ sender: UIButton) {
+        let FeedDetailVC = FeedDetailViewController()
+        FeedDetailVC.modalPresentationStyle = .fullScreen
+        self.performSegue(withIdentifier: "goToFeedDetailViewHome", sender: self)
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        if segue.identifier == "goToFeedDetailViewHome" {
+            
+        }
+    }
+    
     /*
     // MARK: - Navigation
 
@@ -43,6 +56,24 @@ class HomeViewController: UIViewController {
     }
     */
 }
+extension HomeViewController: UISearchBarDelegate {
+    private func dismissKeyboard(){
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        // 키보드가 올라와 있을 때 내려가게 처리
+
+        dismissKeyboard()
+        guard let searchTerm = searchBar.text, searchTerm.isEmpty == false else { return }
+        
+    }
+    
+    // 검색어가 있는지 확인
+    
+    // 네트워킹을 통한 검색
+}
+
 
 extension HomeViewController: UICollectionViewDataSource {
     // 몇개 표시 할까?
@@ -71,6 +102,10 @@ extension HomeViewController: UICollectionViewDataSource {
         cell.thumbnail.layer.cornerRadius = 5
         return cell
     }
+    
+    
+    
+    
 }
 
 extension HomeViewController: UICollectionViewDelegateFlowLayout {

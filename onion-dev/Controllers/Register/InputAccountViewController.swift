@@ -9,7 +9,7 @@
 import UIKit
 
 class InputAccountViewController: UIViewController {
-
+    
     var userInfo: [String: String] = [:]
     var registerManager: RegisterManager?
     
@@ -21,26 +21,30 @@ class InputAccountViewController: UIViewController {
         registerManager = RegisterManager()
     }
     
-
+    
     @IBAction func nextButtonPressed(_ sender: UIButton) {
         let id = idTextField.text
         
-        
         if let pw = pwTextField.text {
             if pw.validatePassword() {
-                registerManager!.verifyEmail(key: "id", value: id!)
-                if registerManager!.checkedEmail!{
-                    let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "OptionViewController") as! OptionViewController
-                    nextVC.userInfo = userInfo
-                    nextVC.userInfo["userId"] = id
-                    nextVC.userInfo["userPw"] = pwTextField.text
-                    self.navigationController?.pushViewController(nextVC, animated: true)
-                } else {
-                    errorMasageLabel.text = "이미 존재하는 아이디입니다."
-                    errorMasageLabel.isHidden = false
-                    idTextField.layer.borderColor = UIColor.red.cgColor
-                    idTextField.layer.borderWidth = 1
-                    idTextField.layer.cornerRadius = 5
+                registerManager!.verifyNickname(value: String(id!)) { completion in
+                    if completion == 202{
+                        DispatchQueue.main.async {
+                            let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "OptionViewController") as! OptionViewController
+                            nextVC.userInfo = self.userInfo
+                            nextVC.userInfo["userId"] = id
+                            nextVC.userInfo["userPw"] = self.pwTextField.text
+                            self.navigationController?.pushViewController(nextVC, animated: true)
+                        }
+                    }else{
+                        DispatchQueue.main.async{
+                            self.errorMasageLabel.text = "이미 존재하는 아이디입니다."
+                            self.errorMasageLabel.isHidden = false
+                            self.idTextField.layer.borderColor = UIColor.red.cgColor
+                            self.idTextField.layer.borderWidth = 1
+                            self.idTextField.layer.cornerRadius = 5
+                        }
+                    }
                 }
             } else {
                 errorMasageLabel.text = "비밀번호는 특수문자 포함 10자리 이상 입력하셔야 합니다."
@@ -50,11 +54,5 @@ class InputAccountViewController: UIViewController {
                 pwTextField.layer.cornerRadius = 5
             }
         }
-        
-        
-        
-        
-        
-
     }
 }

@@ -12,12 +12,10 @@ class HomeCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var thumbnail: UIImageView!
     
+    @IBOutlet weak var ThumbnailImageButton: UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()
 
     }
-    
-    
-    
     
 }
