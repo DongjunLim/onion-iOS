@@ -9,13 +9,7 @@
 import Foundation
 
 class RegisterManager {
-    var emailVerify: Bool
-    let semaphore: DispatchSemaphore?
-    init(){
-        self.emailVerify = false
-        self.semaphore = DispatchSemaphore(value: 0)
-        return
-    }
+
     
     func verifyEmail (value: String, completion: @escaping (Int) -> Void){
         let session = URLSession(configuration: .default)
