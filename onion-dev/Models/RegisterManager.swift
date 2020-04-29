@@ -52,7 +52,7 @@ class RegisterManager {
     }
     
     
-    func join(email: String, id: String, pw: String){
+    func join(email: String, id: String, pw: String, completion: @escaping (String) -> Void){
         
         let urlComponents = URLComponents(string: "http://127.0.0.1:3000/account/register?")!
         let requestURL = urlComponents.url!
@@ -73,7 +73,20 @@ class RegisterManager {
                 successRange.contains(statusCode) else {
                     return
             }
-            
+            guard let resultData = data else {
+                completion("error")
+                return
+            }
+            if statusCode == 201{
+                let decoder = JSONDecoder()
+                do{
+                    let result = try decoder.decode(AccessToken.self, from: resultData)
+                    completion(result.token)
+                    print("DONE")
+                } catch{
+                    completion("")
+                }
+            }
         }
         dataTask.resume()
         

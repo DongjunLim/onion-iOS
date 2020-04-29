@@ -30,14 +30,14 @@ class OptionViewController: UIViewController {
         
         
         //네트워크 전송
-        registerManager!.join(email: String(userEmail), id: String(userNickname), pw: String(userPassword))
+        registerManager!.join(email: String(userEmail), id: String(userNickname), pw: String(userPassword)) { token in
+            DispatchQueue.main.async {
+                UserDefaults.standard.set(token, forKey: "AccessToken")
+            }
+        }
         
         //화면전환
         self.performSegue(withIdentifier: "goToFinishView", sender: self)
-        
-        
-        
-
     }
 
 }

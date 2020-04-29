@@ -1,0 +1,6 @@
+framework module Pods_onion_devTests {
+  umbrella header "Pods-onion-devTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

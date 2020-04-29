@@ -1,0 +1,6 @@
+framework module Pods_onion_dev_onion_devUITests {
+  umbrella header "Pods-onion-dev-onion-devUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -25,7 +25,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         let loadedData = UserDefaults.standard.value(forKey: "AccessToken") as! String
         print(loadedData)
         if loadedData != "false"{
-            moveHomeView()
+//            moveHomeView()
         }
     }
     
