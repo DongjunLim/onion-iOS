@@ -10,13 +10,17 @@ import UIKit
 
 class HomeViewController: UIViewController {
 
-    
+    var resultCount: Int = 0
     @IBOutlet weak var thumbnailCollectionView: UICollectionView!
     @IBOutlet weak var searchBar: UISearchBar!
     override func viewDidLoad() {
         super.viewDidLoad()
         searchBar.searchTextField.backgroundColor = UIColor.white
         
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        resultCount = 18
+        self.thumbnailCollectionView.reloadData()
     }
     
 
@@ -71,6 +75,7 @@ extension HomeViewController: UISearchBarDelegate {
     
     // 검색어가 있는지 확인
     
+    
     // 네트워킹을 통한 검색
 }
 
@@ -78,7 +83,7 @@ extension HomeViewController: UISearchBarDelegate {
 extension HomeViewController: UICollectionViewDataSource {
     // 몇개 표시 할까?
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 24
+        return resultCount
     }
     
     // 셀 어떻게 표시 할까?
@@ -86,26 +91,18 @@ extension HomeViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell else {
             return UICollectionViewCell()
         }
-        let url = URL(string: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/\(indexPath[1]+1).jpeg")
+        
+        let url = URL(string: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/\(indexPath[1]+26).jpg")
         do{
             let data = try Data(contentsOf: url!)
             cell.thumbnail.image = UIImage(data: data)
-        
-            
         // Do any additional setup after loading the view.
         }catch let err{
             print("Error : \(err.localizedDescription)")
-
         }
-//        let image: UIImage = UIImage(named:"\(indexPath[1]+1).jpg")!
-        
         cell.thumbnail.layer.cornerRadius = 5
         return cell
     }
-    
-    
-    
-    
 }
 
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
@@ -118,6 +115,7 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 //        let width = (collectionView.bounds.width -  itemSpacing - margin * 2) / 2
 //        let height = width + 60
         
-        return CGSize(width: 125, height: 175)
+        return CGSize(width: 200, height: 175)
     }
 }
+

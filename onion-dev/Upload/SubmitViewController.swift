@@ -15,6 +15,7 @@ struct file: Decodable{
 
 class SubmitViewController: UIViewController {
     
+    var feedImage: UIImage!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var feedImageView: UIImageView!
     
@@ -30,6 +31,7 @@ class SubmitViewController: UIViewController {
     @IBOutlet weak var submitButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
+        feedImageView.image = self.feedImage
         setBorderLayout()
         
         // Do any additional setup after loading the view.
@@ -87,7 +89,7 @@ class SubmitViewController: UIViewController {
                                      fileName: "img.jpg",
                                      mimeType: "image/jpeg")
         },
-                         to: "http://127.0.0.1:3000/feed/file",
+                         to: "http://192.168.0.5:3000/feed/file",
                          headers: ["Authorization": "HAP"],
                          encodingCompletion: { encodingResult in
                             switch encodingResult {

@@ -19,7 +19,7 @@ class LoginManager{
     }
     
     func login(email: String, password: String, completion: @escaping (Int, String) -> Void){
-        let urlComponents = URLComponents(string: "http://127.0.0.1:3000/login?")!
+        let urlComponents = URLComponents(string: "http://172.30.1.27:3000/login?")!
         var request = URLRequest(url: urlComponents.url!)
         
         request.httpMethod = "GET"

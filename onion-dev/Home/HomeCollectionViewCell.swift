@@ -11,10 +11,16 @@ import UIKit
 class HomeCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var thumbnail: UIImageView!
+
+    
+
     
     @IBOutlet weak var ThumbnailImageButton: UIButton!
     override func awakeFromNib() {
         super.awakeFromNib()
+        let screenWidth = UIScreen.main.bounds.size.width
+        self.thumbnail.bounds.size.width = screenWidth / 3 - 10
+        self.thumbnail.bounds.size.height = self.thumbnail.bounds.size.width * 1.4
 
     }
     

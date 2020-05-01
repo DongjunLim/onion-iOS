@@ -9,11 +9,16 @@
 import UIKit
 
 class TimelineViewController: UIViewController {
-
+    @IBOutlet weak var thumbnailCollectionView: UICollectionView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        self.thumbnailCollectionView.reloadData()
 
-        // Do any additional setup after loading the view.
     }
     
 
@@ -53,9 +58,11 @@ extension TimelineViewController: UICollectionViewDataSource {
 extension TimelineViewController: UICollectionViewDelegateFlowLayout {
     // 셀 사이즈 어떻게 할까?
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = 135
-        let height = Float(width) * 1.7
+//        let width = 135
+//        let height = Float(width) * 1.7
         
-        return CGSize(width: 135, height: Int(height))
+        
+        
+        return CGSize(width: 115, height: 200)
     }
 }

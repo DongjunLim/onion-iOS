@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -22,15 +22,17 @@
 		0E86B4EA24284EAC0094E6D3 /* OptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E86B4E924284EAC0094E6D3 /* OptionViewController.swift */; };
 		0E86B4EC24288E630094E6D3 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E86B4EB24288E630094E6D3 /* UserManager.swift */; };
 		0E86B4EE2428987A0094E6D3 /* RegisterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E86B4ED2428987A0094E6D3 /* RegisterManager.swift */; };
+		0E8A0D32245AF62B0057384D /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8A0D31245AF62B0057384D /* Feed.swift */; };
+		0E8A0D34245AFF150057384D /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8A0D33245AFF150057384D /* TestViewController.swift */; };
+		0EABC668245A9CBC0030AF03 /* PreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EABC667245A9CBC0030AF03 /* PreviewView.swift */; };
+		0EABC66A245AA47E0030AF03 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EABC669245AA47E0030AF03 /* CameraViewController.swift */; };
+		0EABC66C245ADDCA0030AF03 /* PhotoLibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EABC66B245ADDCA0030AF03 /* PhotoLibraryViewController.swift */; };
 		0EC3788124556A26002B7D78 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC3788024556A26002B7D78 /* TabBarViewController.swift */; };
 		0EC3788424557A7B002B7D78 /* FeedDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC3788324557A7B002B7D78 /* FeedDetailViewController.swift */; };
 		0EC378862455818F002B7D78 /* RelativeThumbnailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC378852455818F002B7D78 /* RelativeThumbnailCollectionViewCell.swift */; };
 		0EC3788824558CA7002B7D78 /* FeedCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC3788724558CA7002B7D78 /* FeedCollectionReusableView.swift */; };
 		0EC3788A24581A73002B7D78 /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC3788924581A73002B7D78 /* LoginManager.swift */; };
 		0EC3788C24586806002B7D78 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC3788B24586806002B7D78 /* KeychainManager.swift */; };
-		0EC3788F24597C68002B7D78 /* LibraryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC3788E24597C68002B7D78 /* LibraryViewController.swift */; };
-		0EC3789124597EF7002B7D78 /* LibraryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC3789024597EF7002B7D78 /* LibraryCollectionViewCell.swift */; };
-		0EC3789324597F5F002B7D78 /* LibraryCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC3789224597F5F002B7D78 /* LibraryCollectionReusableView.swift */; };
 		0EC3789524599BC9002B7D78 /* SubmitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC3789424599BC9002B7D78 /* SubmitViewController.swift */; };
 		0EC378972459A0B1002B7D78 /* UploadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC378962459A0B1002B7D78 /* UploadManager.swift */; };
 		0EC6BEEC244AF045004242AC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC6BEEB244AF045004242AC /* HomeViewController.swift */; };
@@ -83,15 +85,17 @@
 		0E86B4E924284EAC0094E6D3 /* OptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionViewController.swift; sourceTree = "<group>"; };
 		0E86B4EB24288E630094E6D3 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		0E86B4ED2428987A0094E6D3 /* RegisterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterManager.swift; sourceTree = "<group>"; };
+		0E8A0D31245AF62B0057384D /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
+		0E8A0D33245AFF150057384D /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		0EABC667245A9CBC0030AF03 /* PreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewView.swift; sourceTree = "<group>"; };
+		0EABC669245AA47E0030AF03 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		0EABC66B245ADDCA0030AF03 /* PhotoLibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryViewController.swift; sourceTree = "<group>"; };
 		0EC3788024556A26002B7D78 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		0EC3788324557A7B002B7D78 /* FeedDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedDetailViewController.swift; sourceTree = "<group>"; };
 		0EC378852455818F002B7D78 /* RelativeThumbnailCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelativeThumbnailCollectionViewCell.swift; sourceTree = "<group>"; };
 		0EC3788724558CA7002B7D78 /* FeedCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCollectionReusableView.swift; sourceTree = "<group>"; };
 		0EC3788924581A73002B7D78 /* LoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
 		0EC3788B24586806002B7D78 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
-		0EC3788E24597C68002B7D78 /* LibraryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryViewController.swift; sourceTree = "<group>"; };
-		0EC3789024597EF7002B7D78 /* LibraryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCollectionViewCell.swift; sourceTree = "<group>"; };
-		0EC3789224597F5F002B7D78 /* LibraryCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryCollectionReusableView.swift; sourceTree = "<group>"; };
 		0EC3789424599BC9002B7D78 /* SubmitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubmitViewController.swift; sourceTree = "<group>"; };
 		0EC378962459A0B1002B7D78 /* UploadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadManager.swift; sourceTree = "<group>"; };
 		0EC6BEEB244AF045004242AC /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -240,6 +244,7 @@
 			children = (
 				0E86B4AA2426043A0094E6D3 /* LoginViewController.swift */,
 				0E86B4E4242845E30094E6D3 /* Register */,
+				0E8A0D33245AFF150057384D /* TestViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -252,6 +257,7 @@
 				0E86B4ED2428987A0094E6D3 /* RegisterManager.swift */,
 				0EC3788924581A73002B7D78 /* LoginManager.swift */,
 				0EC3788B24586806002B7D78 /* KeychainManager.swift */,
+				0E8A0D31245AF62B0057384D /* Feed.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -295,11 +301,11 @@
 		0EC3788D24597C32002B7D78 /* Upload */ = {
 			isa = PBXGroup;
 			children = (
-				0EC3788E24597C68002B7D78 /* LibraryViewController.swift */,
-				0EC3789024597EF7002B7D78 /* LibraryCollectionViewCell.swift */,
-				0EC3789224597F5F002B7D78 /* LibraryCollectionReusableView.swift */,
 				0EC3789424599BC9002B7D78 /* SubmitViewController.swift */,
 				0EC378962459A0B1002B7D78 /* UploadManager.swift */,
+				0EABC667245A9CBC0030AF03 /* PreviewView.swift */,
+				0EABC669245AA47E0030AF03 /* CameraViewController.swift */,
+				0EABC66B245ADDCA0030AF03 /* PhotoLibraryViewController.swift */,
 			);
 			path = Upload;
 			sourceTree = "<group>";
@@ -371,7 +377,6 @@
 				337B0E4D0ED984B86A4019F2 /* Pods-onion-devTests.debug.xcconfig */,
 				C1F257DAD5225438D146369E /* Pods-onion-devTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -628,22 +633,24 @@
 				0EC3788124556A26002B7D78 /* TabBarViewController.swift in Sources */,
 				0E86B4EE2428987A0094E6D3 /* RegisterManager.swift in Sources */,
 				0E86B4EC24288E630094E6D3 /* UserManager.swift in Sources */,
-				0EC3789124597EF7002B7D78 /* LibraryCollectionViewCell.swift in Sources */,
 				0EC6BF3D244C5EE5004242AC /* TimelineCollectionViewCell.swift in Sources */,
 				0E86B4AB2426043A0094E6D3 /* LoginViewController.swift in Sources */,
 				0EC3788A24581A73002B7D78 /* LoginManager.swift in Sources */,
 				0E86B4A72426043A0094E6D3 /* AppDelegate.swift in Sources */,
 				0EC378972459A0B1002B7D78 /* UploadManager.swift in Sources */,
+				0EABC668245A9CBC0030AF03 /* PreviewView.swift in Sources */,
 				0E86B4E6242846000094E6D3 /* FinishVC.swift in Sources */,
 				0E86B4DE24275D0E0094E6D3 /* InputAccountViewController.swift in Sources */,
 				0E86B4A92426043A0094E6D3 /* SceneDelegate.swift in Sources */,
+				0EABC66C245ADDCA0030AF03 /* PhotoLibraryViewController.swift in Sources */,
 				0E86B4EA24284EAC0094E6D3 /* OptionViewController.swift in Sources */,
+				0E8A0D34245AFF150057384D /* TestViewController.swift in Sources */,
 				0E86B4DC24275C820094E6D3 /* RegisterViewController.swift in Sources */,
-				0EC3789324597F5F002B7D78 /* LibraryCollectionReusableView.swift in Sources */,
-				0EC3788F24597C68002B7D78 /* LibraryViewController.swift in Sources */,
 				0EC3788824558CA7002B7D78 /* FeedCollectionReusableView.swift in Sources */,
 				0EC3788424557A7B002B7D78 /* FeedDetailViewController.swift in Sources */,
+				0EABC66A245AA47E0030AF03 /* CameraViewController.swift in Sources */,
 				0EC6BF3B244C5EC5004242AC /* TimelineViewController.swift in Sources */,
+				0E8A0D32245AF62B0057384D /* Feed.swift in Sources */,
 				0E86B4E32427B3730094E6D3 /* User.swift in Sources */,
 				0EC3789524599BC9002B7D78 /* SubmitViewController.swift in Sources */,
 				0EC3788C24586806002B7D78 /* KeychainManager.swift in Sources */,

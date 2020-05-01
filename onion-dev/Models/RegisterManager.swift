@@ -13,7 +13,7 @@ class RegisterManager {
     
     func verifyEmail (value: String, completion: @escaping (Int) -> Void){
         let session = URLSession(configuration: .default)
-        var urlComponents = URLComponents(string: "http://127.0.0.1:3000/account/check-email?")!
+        var urlComponents = URLComponents(string: "http://172.30.1.27:3000/account/check-email?")!
         let emailQuery = URLQueryItem(name: "userEmail", value: value)
         urlComponents.queryItems?.append(emailQuery)
         
@@ -33,7 +33,7 @@ class RegisterManager {
     
     func verifyNickname (value: String, completion: @escaping (Int) -> Void){
         let session = URLSession(configuration: .default)
-        var urlComponents = URLComponents(string: "http://127.0.0.1:3000/account/check-nickname?")!
+        var urlComponents = URLComponents(string: "http://172.30.1.27:3000/account/check-nickname?")!
         let nicknameQuery = URLQueryItem(name: "userNickname", value: value)
         urlComponents.queryItems?.append(nicknameQuery)
         
@@ -54,7 +54,7 @@ class RegisterManager {
     
     func join(email: String, id: String, pw: String, completion: @escaping (String) -> Void){
         
-        let urlComponents = URLComponents(string: "http://127.0.0.1:3000/account/register?")!
+        let urlComponents = URLComponents(string: "http://172.30.1.27:3000/account/register?")!
         let requestURL = urlComponents.url!
         var request = URLRequest(url: requestURL)
         request.httpMethod = "POST"

@@ -14,20 +14,38 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var pwTextField: UITextField!
     var loginmanager: LoginManager!
     @IBOutlet weak var errorMassageLabel: UILabel!
+    @IBOutlet weak var loginButton: UIButton!
     
+    @IBOutlet weak var registerButton: UIButton!
+    @IBOutlet weak var blackEffectBackgroundImageView: UIImageView!
+    @IBOutlet weak var LoginViewBackGroundImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateUI()
+    }
+    
+    func updateUI(){
+        LoginViewBackGroundImage.alpha = 0.8
+        blackEffectBackgroundImageView.alpha = 0.5
+        registerButton.layer.cornerRadius = 5
+        emailTextField.alpha = 0.7
+        pwTextField.alpha = 0.7
+        registerButton.alpha = 0.7
+        loginButton.alpha = 0.7
+        loginButton.layer.cornerRadius = 5
         loginmanager = LoginManager()
-        
     }
-    override func viewDidAppear(_ animated: Bool) {
-        let loadedData = UserDefaults.standard.value(forKey: "AccessToken") as! String
-        print(loadedData)
-        if loadedData != "false"{
-//            moveHomeView()
-        }
-    }
+    
+    
+    
+//    override func viewDidAppear(_ animated: Bool) {
+////        let loadedData = UserDefaults.standard.value(forKey: "AccessToken") as! String
+////        print(loadedData)
+////        if loadedData != "false"{
+////            moveHomeView()
+//        }
+//    }
     
     @IBAction func loginButtonPressed(_ sender: UIButton) {
         let userEmail = emailTextField.text!
