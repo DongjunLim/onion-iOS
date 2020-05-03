@@ -10,6 +10,8 @@ import UIKit
 
 class TimelineCollectionViewCell: UICollectionViewCell {
     
+    var feed: Feed?
+    
     @IBOutlet weak var thumbnail: UIImageView!
     
     @IBOutlet weak var username: UILabel!
@@ -22,7 +24,5 @@ class TimelineCollectionViewCell: UICollectionViewCell {
         self.bounds.size.width = screenWidth / 3 - 10
         self.thumbnail.bounds.size.width = screenWidth / 3 - 10
         self.thumbnail.bounds.size.height = self.thumbnail.bounds.size.width * 1.6
-        self.goToFeedDetailButton.bounds.size.width = screenWidth / 3 - 10
-        self.goToFeedDetailButton.bounds.size.height = self.thumbnail.bounds.size.width * 1.6
     }
 }

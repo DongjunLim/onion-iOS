@@ -10,6 +10,8 @@ import UIKit
 
 class HomeCollectionViewCell: UICollectionViewCell {
     
+    var feed: Feed?
+    
     @IBOutlet weak var thumbnail: UIImageView!
 
     

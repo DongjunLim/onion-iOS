@@ -9,57 +9,37 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-
+    var feedList: FeedList! = nil
     var resultCount: Int = 0
     @IBOutlet weak var thumbnailCollectionView: UICollectionView!
     @IBOutlet weak var searchBar: UISearchBar!
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.getHomeFeedThumbnail()
         searchBar.searchTextField.backgroundColor = UIColor.white
+        self.thumbnailCollectionView.dataSource = self
+        self.thumbnailCollectionView.delegate = self
+        
         
     }
     override func viewDidAppear(_ animated: Bool) {
-        resultCount = 18
+        resultCount = 10
         self.thumbnailCollectionView.reloadData()
     }
-    
 
-    @IBAction func swipeAction(_ sender: UISwipeGestureRecognizer) {
-        if(sender.direction == .left){
-            print("swipe Left")
-        } else if(sender.direction == .right){
-            print("swipe Right")
-        } else if(sender.direction == .up){
-            print("swipe Up")
-        } else if(sender.direction == .down){
-            print("swipe down")
-        }
-        
-        self.view.endEditing(true)
-    }
-    
-    
-    @IBAction func goToFeedDetailView(_ sender: UIButton) {
-        let FeedDetailVC = FeedDetailViewController()
-        FeedDetailVC.modalPresentationStyle = .fullScreen
-        self.performSegue(withIdentifier: "goToFeedDetailViewHome", sender: self)
-    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
         if segue.identifier == "goToFeedDetailViewHome" {
             
         }
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func getHomeFeedThumbnail(){
+        FeedManager.getFeedList() { result in
+            self.feedList = result
+            return
+        };
     }
-    */
 }
+
 extension HomeViewController: UISearchBarDelegate {
     private func dismissKeyboard(){
         searchBar.resignFirstResponder()
@@ -80,40 +60,37 @@ extension HomeViewController: UISearchBarDelegate {
 }
 
 
-extension HomeViewController: UICollectionViewDataSource {
-    // 몇개 표시 할까?
+extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelegate
+ {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return resultCount
     }
     
-    // 셀 어떻게 표시 할까?
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell else {
             return UICollectionViewCell()
         }
         
-        let url = URL(string: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/\(indexPath[1]+26).jpg")
-        do{
-            let data = try Data(contentsOf: url!)
-            cell.thumbnail.image = UIImage(data: data)
-        // Do any additional setup after loading the view.
-        }catch let err{
-            print("Error : \(err.localizedDescription)")
+        cell.feed = self.feedList?.feedList[indexPath[1]]
+        FeedManager.getFeedImage(fileUrl: cell.feed!.feedThumbnailUrl) { result in
+            cell.thumbnail.image = result
         }
         cell.thumbnail.layer.cornerRadius = 5
         return cell
     }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let select = collectionView.cellForItem(at: indexPath) as! HomeCollectionViewCell
+        let feedDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "FeedDetailViewController") as! FeedDetailViewController
+        feedDetailVC.feedInfo = select.feed
+        self.present(feedDetailVC, animated: true, completion: nil)
+    }
 }
 
 extension HomeViewController: UICollectionViewDelegateFlowLayout {
-    // 셀 사이즈 어떻게 할까?
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        // 20 - card(width) - 20 - card(width) - 20
-        // TODO: 셀사이즈 구하기
-//        let itemSpacing: CGFloat = 20
-//        let margin: CGFloat = 20
-//        let width = (collectionView.bounds.width -  itemSpacing - margin * 2) / 2
-//        let height = width + 60
         
         return CGSize(width: 200, height: 175)
     }

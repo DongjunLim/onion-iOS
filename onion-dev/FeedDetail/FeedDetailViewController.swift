@@ -9,10 +9,27 @@
 import UIKit
 
 class FeedDetailViewController: UIViewController {
+    var feedInfo: Feed? = nil
+    var cellCount = 0
+    var relativefeedList: FeedList?
+    
+    @IBOutlet weak var FeedDetailCollectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        getRelativeFeedList(feedId: "empty")
+
+    }
+    override func viewDidAppear(_ animated: Bool) {
+        cellCount = 10
+        FeedDetailCollectionView.reloadData()
         
-        // Do any additional setup after loading the view.
+    }
+    
+    
+    func getRelativeFeedList(feedId: String){
+        FeedManager.getFeedList(){ result in
+            self.relativefeedList = result
+        }
     }
 }
 
@@ -20,7 +37,7 @@ class FeedDetailViewController: UIViewController {
 extension FeedDetailViewController: UICollectionViewDataSource {
     // 몇개 표시 할까?
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 8
+        return cellCount
     }
     
     // 셀 어떻게 표시 할까?
@@ -28,19 +45,12 @@ extension FeedDetailViewController: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "RelativeThumbnailCollectionViewCell", for: indexPath) as? RelativeThumbnailCollectionViewCell else {
             return UICollectionViewCell()
         }
-        let url = URL(string: "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/thumbnail/1-\(indexPath[1]+2).JPG")
-        do{
-            let data = try Data(contentsOf: url!)
-            cell.thumbnail.image = UIImage(data: data)
         
-            
-        // Do any additional setup after loading the view.
-        }catch let err{
-            print("Error : \(err.localizedDescription)")
-
+        cell.feed = self.relativefeedList?.feedList[indexPath[1]]
+        
+        FeedManager.getFeedImage(fileUrl: cell.feed!.feedThumbnailUrl) { result in
+            cell.thumbnail.image = result
         }
-//        let image: UIImage = UIImage(named:"\(indexPath[1]+1).jpg")!
-        
         cell.thumbnail.layer.cornerRadius = 5
         return cell
     }
@@ -51,28 +61,37 @@ extension FeedDetailViewController: UICollectionViewDataSource {
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "FeedCollectionReusableView", for: indexPath) as? FeedCollectionReusableView else {
                 return UICollectionReusableView()
             }
-            header.followButton.layer.borderWidth = 1
-            header.followButton.layer.borderColor = UIColor.black.cgColor
-            header.followButton.layer.cornerRadius = 5
+            
+            
+            FeedManager.getFeedImage(fileUrl: self.feedInfo!.photoUrl) { (result) in
+                header.FeedImage.image = result
+            }
+            
+            header.username.text = self.feedInfo?.authorNickname
+            header.contentTextView.text = self.feedInfo?.content
+            header.updateUI()
+            
             return header
         default:
             return UICollectionReusableView()
         }
-       
-        
-        
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let select = collectionView.cellForItem(at: indexPath) as! RelativeThumbnailCollectionViewCell
+        let feedDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "FeedDetailViewController") as! FeedDetailViewController
+        feedDetailVC.feedInfo = select.feed
+        self.present(feedDetailVC, animated: true, completion: nil)
+    }
+    
+    
+    
 }
 
 extension FeedDetailViewController: UICollectionViewDelegateFlowLayout {
     // 셀 사이즈 어떻게 할까?
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        // 20 - card(width) - 20 - card(width) - 20
-        // TODO: 셀사이즈 구하기
-//        let itemSpacing: CGFloat = 20
-//        let margin: CGFloat = 20
-//        let width = (collectionView.bounds.width -  itemSpacing - margin * 2) / 2
-//        let height = width + 60
+
         
         return CGSize(width: 135, height: 180)
     }

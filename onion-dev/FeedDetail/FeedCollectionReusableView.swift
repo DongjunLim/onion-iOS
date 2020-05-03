@@ -30,4 +30,10 @@ class FeedCollectionReusableView: UICollectionReusableView {
             isFollow = false
         }
     }
+    
+    func updateUI(){
+        followButton.layer.borderWidth = 1
+        followButton.layer.borderColor = UIColor.black.cgColor
+        followButton.layer.cornerRadius = 5
+    }
 }

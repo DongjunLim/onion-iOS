@@ -10,6 +10,8 @@ import UIKit
 
 class RelativeThumbnailCollectionViewCell: UICollectionViewCell {
     
+    var feed: Feed?
+    
     @IBOutlet weak var thumbnail: UIImageView!
     
     override func awakeFromNib() {

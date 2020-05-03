@@ -9,26 +9,7 @@
 import UIKit
 import Alamofire
 
-struct Feed: Codable {
-    let feedList: [FeedList]
-}
 
-// MARK: - FeedList
-struct FeedList: Codable {
-    let feedID: String
-    let hashTag: [String]
-    let profileURL, profilePhotoURL, authorNickname, content: String
-    let likeCount: Int
-    let isLike, isFollow: Bool
-    
-    enum CodingKeys: String, CodingKey {
-        case feedID = "feedId"
-        case hashTag
-        case profileURL = "profileUrl"
-        case profilePhotoURL = "profilePhotoUrl"
-        case authorNickname, content, likeCount, isLike, isFollow
-    }
-}
 
 
 
@@ -54,7 +35,7 @@ class TestViewController: UIViewController {
                 do{
                     let decoder = JSONDecoder()
                     let result = try decoder.decode(Feed.self, from: jsonData)
-                    print(result.feedList[1].authorNickname)
+//                    print(result.feedList[1].authorNickname)
                 } catch {
                     print(error.localizedDescription)
                 }
@@ -65,16 +46,5 @@ class TestViewController: UIViewController {
                 }
                 return
         }
-        
-        /*
-         // MARK: - Navigation
-         
-         // In a storyboard-based application, you will often want to do a little preparation before navigation
-         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-         // Get the new view controller using segue.destination.
-         // Pass the selected object to the new view controller.
-         }
-         */
-        
     }
 }
