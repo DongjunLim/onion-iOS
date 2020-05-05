@@ -3,4 +3,6 @@ Podfile.lock
 build/
 onion-devTests/
 onion-devUITests/
-
+onion-dev.xcodeproj/
+onion-dev.xcworkspace/
+Pods/
