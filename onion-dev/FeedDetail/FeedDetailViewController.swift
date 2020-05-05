@@ -12,6 +12,7 @@ class FeedDetailViewController: UIViewController {
     var feedInfo: Feed? = nil
     var cellCount = 0
     var relativefeedList: FeedList?
+    var feedManager = FeedManager()
     
     @IBOutlet weak var FeedDetailCollectionView: UICollectionView!
     override func viewDidLoad() {
@@ -27,7 +28,7 @@ class FeedDetailViewController: UIViewController {
     
     
     func getRelativeFeedList(feedId: String){
-        FeedManager.getFeedList(){ result in
+        feedManager.getFeedList(){ result in
             self.relativefeedList = result
         }
     }

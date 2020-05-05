@@ -12,6 +12,7 @@ class InputAccountViewController: UIViewController {
     
     var userInfo: [String: String] = [:]
     var registerManager: RegisterManager?
+    var user: User? = nil
     
     @IBOutlet weak var errorMasageLabel: UILabel!
     @IBOutlet weak var idTextField: UITextField!
@@ -31,9 +32,10 @@ class InputAccountViewController: UIViewController {
                     if completion == 202{
                         DispatchQueue.main.async {
                             let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "OptionViewController") as! OptionViewController
-                            nextVC.userInfo = self.userInfo
-                            nextVC.userInfo["userId"] = id
-                            nextVC.userInfo["userPw"] = self.pwTextField.text
+                            self.user?._userPassword = self.pwTextField.text
+                            self.user?._userId = self.idTextField.text
+                            nextVC.user = self.user
+                            
                             self.navigationController?.pushViewController(nextVC, animated: true)
                         }
                     }else{

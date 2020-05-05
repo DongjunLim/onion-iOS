@@ -27,7 +27,7 @@ class RegisterViewController: UIViewController {
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var errorMassage: UILabel!
-    
+    var user: User? = nil
     @IBOutlet weak var temp: UITabBar!
     var registerManager: RegisterManager?
     
@@ -48,7 +48,9 @@ class RegisterViewController: UIViewController {
                 if completion == 202{
                     DispatchQueue.main.async{
                         let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "InputAccountViewController") as! InputAccountViewController
-                        nextVC.userInfo["userEmail"] = email
+                        self.user = User(email: String(email))
+                        nextVC.user = self.user
+                        
                         self.navigationController?.pushViewController(nextVC, animated: true)
                     }
                 } else{

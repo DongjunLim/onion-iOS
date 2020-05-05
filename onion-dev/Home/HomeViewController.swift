@@ -11,11 +11,12 @@ import UIKit
 class HomeViewController: UIViewController {
     var feedList: FeedList! = nil
     var resultCount: Int = 0
+    var feedManager = FeedManager()
     @IBOutlet weak var thumbnailCollectionView: UICollectionView!
     @IBOutlet weak var searchBar: UISearchBar!
     override func viewDidLoad() {
-        super.viewDidLoad()
         self.getHomeFeedThumbnail()
+        super.viewDidLoad()
         searchBar.searchTextField.backgroundColor = UIColor.white
         self.thumbnailCollectionView.dataSource = self
         self.thumbnailCollectionView.delegate = self
@@ -33,7 +34,7 @@ class HomeViewController: UIViewController {
         }
     }
     func getHomeFeedThumbnail(){
-        FeedManager.getFeedList() { result in
+        feedManager.getFeedList() { result in
             self.feedList = result
             return
         };
@@ -71,7 +72,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell else {
             return UICollectionViewCell()
         }
-        
+
         cell.feed = self.feedList?.feedList[indexPath[1]]
         FeedManager.getFeedImage(fileUrl: cell.feed!.feedThumbnailUrl) { result in
             cell.thumbnail.image = result

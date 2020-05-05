@@ -18,21 +18,25 @@ class SubmitViewController: UIViewController {
     var feedImage: UIImage!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var feedImageView: UIImageView!
-    
     @IBOutlet weak var contentTextView: UITextView!
     @IBOutlet weak var hashTagView: UIView!
-    
     @IBOutlet weak var userGenderView: UIView!
     @IBOutlet weak var userHeightView: UIView!
     @IBOutlet weak var userAgeView: UIView!
-    
     @IBOutlet weak var hashTagTextField: UITextField!
-    
     @IBOutlet weak var submitButton: UIButton!
+    
+    @IBOutlet weak var userHeight: UILabel!
+    @IBOutlet weak var userGenderLabel: UILabel!
+    @IBOutlet weak var userAgeLabel: UILabel!
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         feedImageView.image = self.feedImage
         setBorderLayout()
+        setUserInfo()
         
         // Do any additional setup after loading the view.
     }
@@ -63,6 +67,13 @@ class SubmitViewController: UIViewController {
         submitButton.layer.cornerRadius = 5
     }
     
+    func setUserInfo(){
+        self.userHeight.text = "180"
+        self.userAgeLabel.text = "30대"
+        self.userGenderLabel.text = "남성"
+        
+    }
+    
     @IBAction func submitButtonPressed(_ sender: UIButton) {
         guard let image = feedImageView.image else {
             //이미지 파일 없을때 예외처리 코드
@@ -78,6 +89,7 @@ class SubmitViewController: UIViewController {
         
     }
     func uploadImageFile(image: UIImage){
+        let token = UserDefaults.standard.string(forKey: "token")
         guard let imageData = image.jpegData(compressionQuality: 0.5) else {
             print("Could not get JPEG representation of UIImage")
             return
@@ -89,8 +101,8 @@ class SubmitViewController: UIViewController {
                                      fileName: "img.jpg",
                                      mimeType: "image/jpeg")
         },
-                         to: "http://192.168.0.5:3000/feed/file",
-                         headers: ["Authorization": "HAP"],
+                         to: "\(Server.url)/feed/file",
+                         headers: ["AccessToken": token!],
                          encodingCompletion: { encodingResult in
                             switch encodingResult {
                             case .success(let upload, _, _):
@@ -109,12 +121,12 @@ class SubmitViewController: UIViewController {
                             case .failure(let encodingError):
                                 print(encodingError)
                             }
-        }
+            }
         )
     }
     
     func uploadContent(content: String, hashTag: [String]){
-        guard let url = URL(string: "http://127.0.0.1:3000/feed/") else{
+        guard let url = URL(string: "\(Server.url)/feed/") else{
             print("URL setting error")
             return
         }
@@ -122,8 +134,7 @@ class SubmitViewController: UIViewController {
         
         Alamofire.request(url,
                           method: .post,
-                          parameters: ["feedContent":content,"filename":content]
-                          )
+                          parameters: ["feedContent":content,"hashTag": ["hashTag1","hashTag2"],"additionalInfo":["height":self.userHeight.text,"gender":self.userGenderLabel.text,"age":self.userAgeLabel.text]])
         .validate()
             .responseJSON { response in
                 guard let statusCode = response.response?.statusCode else {

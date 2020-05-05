@@ -11,11 +11,12 @@ import UIKit
 class TimelineViewController: UIViewController {
     var feedList: FeedList! = nil
     var feedCount = 0
+    var feedManager = FeedManager()
     @IBOutlet weak var thumbnailCollectionView: UICollectionView!
     
     override func viewDidLoad() {
+        self.getTimelineFeedThumbnail()
         super.viewDidLoad()
-        getTimelineFeedThumbnail()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -24,7 +25,7 @@ class TimelineViewController: UIViewController {
     }
     
     func getTimelineFeedThumbnail(){
-        FeedManager.getFeedList() { result in
+        self.feedManager.getFeedList() { result in
             self.feedList = result
             return
         };
@@ -43,6 +44,7 @@ extension TimelineViewController: UICollectionViewDataSource, UICollectionViewDe
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TimelineCollectionViewCell", for: indexPath) as? TimelineCollectionViewCell else {
             return UICollectionViewCell()
         }
+
         cell.feed = self.feedList?.feedList[indexPath[1]]
         FeedManager.getFeedImage(fileUrl: cell.feed!.feedThumbnailUrl) { result in
             cell.thumbnail.image = result

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import KeychainSwift
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
@@ -37,16 +38,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         loginmanager = LoginManager()
     }
     
-    
-    
-//    override func viewDidAppear(_ animated: Bool) {
-////        let loadedData = UserDefaults.standard.value(forKey: "AccessToken") as! String
-////        print(loadedData)
-////        if loadedData != "false"{
-////            moveHomeView()
-//        }
-//    }
-    
     @IBAction func loginButtonPressed(_ sender: UIButton) {
         let userEmail = emailTextField.text!
         let userPassword = pwTextField.text!
@@ -76,8 +67,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         loginmanager.login(email: String(userEmail), password: String(userPassword)) { (statusCode, token) in
             if statusCode == 200 {
                 DispatchQueue.main.async {
-                    //                    print(token)
-                    UserDefaults.standard.set(token, forKey: "AccessToken")
+                    print(token)
+                    KeychainSwift().set(token, forKey: "AccessToken")
                     self.moveHomeView()
                 }
             } else{

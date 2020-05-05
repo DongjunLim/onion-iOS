@@ -9,6 +9,7 @@
 import UIKit
 
 class FinishVC: UIViewController {
+    var user: User? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -7,10 +7,9 @@ target 'onion-dev' do
 
   # Pods for onion-dev
 
-  target 'onion-dev' do
-    use_frameworks!
-    pod 'Alamofire','~> 4.8.2'
-  end
+  pod 'Alamofire','~> 4.8.2'
+  pod 'KeychainSwift', '~> 19.0'
+
 
   target 'onion-devTests' do
     inherit! :search_paths

@@ -1,0 +1,6 @@
+Podfile
+Podfile.lock
+build/
+onion-devTests/
+onion-devUITests/
+

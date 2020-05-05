@@ -16,9 +16,11 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
     let photoOutput = AVCapturePhotoOutput()
     var selectedImageView = UIImageView()
     let picker = UIImagePickerController()
+    @IBOutlet weak var imgView: UIImageView!
     
     
     let sessionQueue = DispatchQueue(label: "session queue")
+    
     let videoDeviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInDualCamera, .builtInWideAngleCamera, .builtInTrueDepthCamera], mediaType: .video, position: .unspecified)
     
     
@@ -73,12 +75,8 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
                 PHPhotoLibrary.shared().performChanges({
                     PHAssetChangeRequest.creationRequestForAsset(from: image)
                 }, completionHandler: { (_, error) in
-                    DispatchQueue.main.async {
-                        let submitVC = self.storyboard?.instantiateViewController(withIdentifier: "SubmitViewController") as! SubmitViewController
-                        submitVC.feedImage = image
-                        
-                        self.navigationController?.pushViewController(submitVC, animated: true)
-                    }
+                    self.imgView.image = image
+                    self.previewView.isHidden = true
                 })
             } else {
                 print(" error to save photo library")
@@ -86,22 +84,27 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
         }
     }
     
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        var newImage: UIImage? = nil
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        if let possibleImage = info["UIImagePickerControllerEditedImage"] as? UIImage { // 수정된 이미지가 있을 경우
-            newImage = possibleImage
-        } else if let possibleImage = info["UIImagePickerControllerOriginalImage"] as? UIImage { // 오리지널 이미지가 있을 경우
-            newImage = possibleImage
+        var selectedImage: UIImage?
+        if let editedImage = info[.editedImage] as? UIImage {
+            selectedImage = editedImage
+        } else if let originalImage = info[.originalImage] as? UIImage {
+            selectedImage = originalImage
         }
+        self.imgView.image = selectedImage!
+        self.previewView.isHidden = true
+        picker.dismiss(animated: true, completion: nil)
+
+    }
+    
+    @IBAction func nextButtonPressed(_ sender: UIButton) {
+        let submitVC = self.storyboard?.instantiateViewController(withIdentifier: "SubmitViewController") as! SubmitViewController
+        submitVC.feedImage = imgView.image
         
-        //        imageView.image = newImage // 받아온 이미지를 이미지 뷰에 넣어준다.
-        
-        picker.dismiss(animated: true) // 그리고 picker를 닫아준다.
+        self.navigationController?.pushViewController(submitVC, animated: true)
     }
 
-
-    
 }
 
 
