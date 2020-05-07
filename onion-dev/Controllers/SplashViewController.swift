@@ -36,8 +36,4 @@ class SplashViewController: UIViewController {
         loginVC.modalPresentationStyle = .fullScreen
         self.performSegue(withIdentifier: "goToLoginView", sender: self)
     }
-    
-    
-    
-    
 }

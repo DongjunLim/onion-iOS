@@ -69,6 +69,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 DispatchQueue.main.async {
                     print(token)
                     KeychainSwift().set(token, forKey: "AccessToken")
+                    UserManager.requestUserInfo()
                     self.moveHomeView()
                 }
             } else{

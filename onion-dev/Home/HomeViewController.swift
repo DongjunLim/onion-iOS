@@ -9,6 +9,7 @@
 import UIKit
 
 class HomeViewController: UIViewController {
+    let semaphore = DispatchSemaphore(value: 0)
     var feedList: FeedList! = nil
     var resultCount: Int = 0
     var feedManager = FeedManager()
@@ -16,6 +17,7 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     override func viewDidLoad() {
         self.getHomeFeedThumbnail()
+        
         super.viewDidLoad()
         searchBar.searchTextField.backgroundColor = UIColor.white
         self.thumbnailCollectionView.dataSource = self
@@ -30,7 +32,6 @@ class HomeViewController: UIViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
         if segue.identifier == "goToFeedDetailViewHome" {
-            
         }
     }
     func getHomeFeedThumbnail(){
@@ -72,6 +73,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HomeCollectionViewCell", for: indexPath) as? HomeCollectionViewCell else {
             return UICollectionViewCell()
         }
+        
 
         cell.feed = self.feedList?.feedList[indexPath[1]]
         FeedManager.getFeedImage(fileUrl: cell.feed!.feedThumbnailUrl) { result in

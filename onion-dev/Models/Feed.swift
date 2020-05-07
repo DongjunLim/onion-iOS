@@ -14,7 +14,6 @@ struct FeedList: Codable {
     let feedList: [Feed]
 }
 
-// MARK: - FeedList
 struct Feed: Codable {
     let feedID: String
     let hashTag: [String]
@@ -77,7 +76,6 @@ class FeedManager{
     
     
     func getFeedList(completion: @escaping (FeedList)-> Void){
-        print("실행되는지 테스트")
         let token = KeychainSwift().get("AccessToken")
         let headers: HTTPHeaders = ["authorization": token!]
         guard let url = URL(string: "\(Server.url)/feed/test?") else { return }
@@ -104,7 +102,6 @@ class FeedManager{
     }
     
     func getHomeFeedList(completion: @escaping (FeedList)-> Void){
-        print("실행되는지 테스트")
         let token = KeychainSwift().get("AccessToken")
         let headers: HTTPHeaders = ["authorization": token!]
         guard let url = URL(string: "\(Server.url)/feed/thumbnail/personal?") else { return }
@@ -131,7 +128,6 @@ class FeedManager{
     }
     
     func getTimelineFeedList(completion: @escaping (FeedList)-> Void){
-        print("실행되는지 테스트")
         let token = KeychainSwift().get("AccessToken")
         let headers: HTTPHeaders = ["authorization": token!]
         guard let url = URL(string: "\(Server.url)/feed/thumbnail/follower?") else { return }

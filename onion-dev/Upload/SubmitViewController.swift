@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import KeychainSwift
 
 struct file: Decodable{
     let filename: String
@@ -30,6 +31,17 @@ class SubmitViewController: UIViewController {
     @IBOutlet weak var userGenderLabel: UILabel!
     @IBOutlet weak var userAgeLabel: UILabel!
     
+    @IBOutlet weak var selectCategoryView: UIView!
+    
+    @IBOutlet weak var Category1Button: UIButton!
+    @IBOutlet weak var Category2Button: UIButton!
+    @IBOutlet weak var Category3Button: UIButton!
+    @IBOutlet weak var Category4Button: UIButton!
+    @IBOutlet weak var Category5Button: UIButton!
+    @IBOutlet weak var uploadButton: UIButton!
+    
+    @IBOutlet weak var lock: UIView!
+    var mainCategoryList: [String] = []
     
     
     override func viewDidLoad() {
@@ -37,6 +49,7 @@ class SubmitViewController: UIViewController {
         feedImageView.image = self.feedImage
         setBorderLayout()
         setUserInfo()
+        selectCategoryView.isHidden = true
         
         // Do any additional setup after loading the view.
     }
@@ -44,52 +57,123 @@ class SubmitViewController: UIViewController {
     
     
     func setBorderLayout(){
-        contentView.layer.borderColor = UIColor.black.cgColor
-        contentView.layer.borderWidth = 1
-        contentView.layer.cornerRadius = 5
+        lock.layer.opacity = 0.5
+        lock.isHidden = true
+        self.setSubViewLayout(contentView)
+        self.setSubViewLayout(hashTagView)
+        self.setSubViewLayout(userAgeView)
+        self.setSubViewLayout(userHeightView)
+        self.setSubViewLayout(userGenderView)
         
-        hashTagView.layer.borderColor = UIColor.black.cgColor
-        hashTagView.layer.borderWidth = 1
-        hashTagView.layer.cornerRadius = 5
+        selectCategoryView.layer.borderColor = UIColor.orange.cgColor
+        selectCategoryView.layer.borderWidth = 2
+        selectCategoryView.layer.cornerRadius = 10
         
-        userAgeView.layer.borderColor = UIColor.black.cgColor
-        userAgeView.layer.borderWidth = 1
-        userAgeView.layer.cornerRadius = 5
-        
-        userHeightView.layer.borderColor = UIColor.black.cgColor
-        userHeightView.layer.borderWidth = 1
-        userHeightView.layer.cornerRadius = 5
-        
-        userGenderView.layer.borderColor = UIColor.black.cgColor
-        userGenderView.layer.borderWidth = 1
-        userGenderView.layer.cornerRadius = 5
+        self.setCategoryButtonLayout(Category1Button)
+        self.setCategoryButtonLayout(Category2Button)
+        self.setCategoryButtonLayout(Category3Button)
+        self.setCategoryButtonLayout(Category4Button)
+        self.setCategoryButtonLayout(Category5Button)
         
         submitButton.layer.cornerRadius = 5
+        uploadButton.backgroundColor = UIColor.orange
+        uploadButton.titleLabel?.text = "확인"
+        uploadButton.layer.cornerRadius = 5
     }
     
     func setUserInfo(){
-        self.userHeight.text = "180"
-        self.userAgeLabel.text = "30대"
-        self.userGenderLabel.text = "남성"
+        self.userHeight.text = UserDefaults.standard.string(forKey: "userHeight")
+        self.userAgeLabel.text = UserDefaults.standard.string(forKey: "userAge")
+        self.userGenderLabel.text = UserDefaults.standard.string(forKey: "userGender")
+    }
+    
+    func updateCategoryList(categoryName: String){
+        if mainCategoryList.contains(categoryName){
+            guard let index = mainCategoryList.firstIndex(of: categoryName) else { return  }
+            mainCategoryList.remove(at: index)
+        } else{
+            self.mainCategoryList.append(categoryName)
+        }
+    }
+    
+    @IBAction func category1ButtonPressed(_ sender: UIButton) {
+        changeCategoryButtonUI(sender)
+        guard let categoryName = sender.titleLabel?.text else { return }
+        self.updateCategoryList(categoryName: categoryName)
+
+    }
+    
+    @IBAction func category2ButtonPressed(_ sender: UIButton) {
+        changeCategoryButtonUI(sender)
+        guard let categoryName = sender.titleLabel?.text else { return }
+        self.updateCategoryList(categoryName: categoryName)
         
     }
     
+    @IBAction func category3ButtonPressed(_ sender: UIButton) {
+        changeCategoryButtonUI(sender)
+        guard let categoryName = sender.titleLabel?.text else { return }
+        self.updateCategoryList(categoryName: categoryName)
+        
+    }
+    
+    @IBAction func category4ButtonPressed(_ sender: UIButton) {
+        changeCategoryButtonUI(sender)
+        guard let categoryName = sender.titleLabel?.text else { return }
+        self.updateCategoryList(categoryName: categoryName)
+        
+    }
+    
+    @IBAction func category5ButtonPressed(_ sender: UIButton) {
+        changeCategoryButtonUI(sender)
+        guard let categoryName = sender.titleLabel?.text else { return }
+        self.updateCategoryList(categoryName: categoryName)
+        
+    }
+    
+    func setCategoryButtonLayout(_ sender: UIButton){
+        sender.layer.borderWidth = 2
+        sender.layer.cornerRadius = 5
+        sender.backgroundColor = UIColor.white
+        sender.layer.borderColor = UIColor.orange.cgColor
+        sender.setTitleColor(.black , for: .normal)
+    }
+    
+    func changeCategoryButtonUI(_ sender: UIButton){
+        if sender.backgroundColor == UIColor.white{
+            sender.backgroundColor = UIColor.orange
+            sender.setTitleColor(.white , for: .normal)
+        } else{
+            self.setCategoryButtonLayout(sender)
+        }
+    }
+    
+    func setSubViewLayout(_ sender: UIView){
+        sender.layer.borderColor = UIColor.lightGray.cgColor
+        sender.layer.borderWidth = 1
+        sender.layer.cornerRadius = 5
+    }
+    
     @IBAction func submitButtonPressed(_ sender: UIButton) {
-        guard let image = feedImageView.image else {
-            //이미지 파일 없을때 예외처리 코드
-            return }
-        
-        uploadImageFile(image: image)
-        
+//        guard let image = feedImageView.image else {
+//            //이미지 파일 없을때 예외처리 코드
+//            return }
+//
+        lock.isHidden = false
+        // uploadImageFile(image: image)
+        selectCategoryView.isHidden = false;
+
         //        guard let content = contentTextView.text else {
         //            //본문 없을때 예외처리 코드
         //            return
         //        }
-        
-        
+    }
+    @IBAction func uploadButtonPressed(_ sender: UIButton) {
+        // 1. 설정한 카테고리로 해서 서버에 데이터 전송
+        // 2. 피드 디테일 화면으로 이동
     }
     func uploadImageFile(image: UIImage){
-        let token = UserDefaults.standard.string(forKey: "token")
+        let token = KeychainSwift().get("AccessToken")
         guard let imageData = image.jpegData(compressionQuality: 0.5) else {
             print("Could not get JPEG representation of UIImage")
             return
@@ -97,12 +181,12 @@ class SubmitViewController: UIViewController {
         
         Alamofire.upload(multipartFormData: { multipartFormData in
             multipartFormData.append(imageData,
-                                     withName: "happy",
+                                     withName: "file",
                                      fileName: "img.jpg",
                                      mimeType: "image/jpeg")
         },
                          to: "\(Server.url)/feed/file",
-                         headers: ["AccessToken": token!],
+                         headers: ["authorization": token!],
                          encodingCompletion: { encodingResult in
                             switch encodingResult {
                             case .success(let upload, _, _):
@@ -143,12 +227,5 @@ class SubmitViewController: UIViewController {
                 }
                 print(statusCode)
         }
-        
     }
-    
-    
 }
-
-
-
-

@@ -25,8 +25,4 @@ class User {
     init(email: String){
         self._userEmail = email
     }
-    
-    
-    
-    
 }
