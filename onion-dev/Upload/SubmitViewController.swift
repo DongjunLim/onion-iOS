@@ -10,8 +10,14 @@ import UIKit
 import Alamofire
 import KeychainSwift
 
-struct file: Decodable{
-    let filename: String
+struct ImageInfo: Codable {
+    let fileName, dominantColor: String
+    let fashionClass: [FashionClass]
+}
+// MARK: - FashionClass
+struct FashionClass: Codable {
+    let category: String
+    let percent: Double
 }
 
 class SubmitViewController: UIViewController {
@@ -155,24 +161,28 @@ class SubmitViewController: UIViewController {
     }
     
     @IBAction func submitButtonPressed(_ sender: UIButton) {
-//        guard let image = feedImageView.image else {
-//            //이미지 파일 없을때 예외처리 코드
-//            return }
-//
+        guard let image = feedImageView.image else {
+            //이미지 파일 없을때 예외처리 코드
+            return }
+
         lock.isHidden = false
-        // uploadImageFile(image: image)
+        // 이미지 분석기다릴동안에 떠야 할 로딩화면 구현해야함
+        
+        uploadImageFile(image: image) { result in
+            self.Category1Button.titleLabel!.text = result.fashionClass[0].category
+            self.Category2Button.titleLabel!.text = result.fashionClass[1].category
+            self.Category3Button.titleLabel!.text = result.fashionClass[2].category
+            self.Category4Button.titleLabel!.text = result.fashionClass[3].category
+            self.Category5Button.titleLabel!.text = result.fashionClass[4].category
+        }
         selectCategoryView.isHidden = false;
 
-        //        guard let content = contentTextView.text else {
-        //            //본문 없을때 예외처리 코드
-        //            return
-        //        }
     }
     @IBAction func uploadButtonPressed(_ sender: UIButton) {
         // 1. 설정한 카테고리로 해서 서버에 데이터 전송
         // 2. 피드 디테일 화면으로 이동
     }
-    func uploadImageFile(image: UIImage){
+    func uploadImageFile(image: UIImage, completion: @escaping (ImageInfo)->Void){
         let token = KeychainSwift().get("AccessToken")
         guard let imageData = image.jpegData(compressionQuality: 0.5) else {
             print("Could not get JPEG representation of UIImage")
@@ -194,9 +204,8 @@ class SubmitViewController: UIViewController {
                                 upload.responseJSON { response in
                                     let decoder = JSONDecoder()
                                     do{
-                                        let filename = try decoder.decode(file.self, from: response.data!)
-                                        print(filename)
-                                        self.uploadContent(content: filename.filename, hashTag: [""])
+                                        let imageInfo = try decoder.decode(ImageInfo.self, from: response.data!)
+                                        completion(imageInfo)
                                         
                                     }catch{
                                         print("DECODE ERROR!")
