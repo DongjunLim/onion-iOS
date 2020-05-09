@@ -20,13 +20,15 @@ class TimelineViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        feedCount = 10
-        self.thumbnailCollectionView.reloadData()
+        
     }
     
     func getTimelineFeedThumbnail(){
+
         self.feedManager.getFeedList() { result in
             self.feedList = result
+            self.feedCount = 10
+            self.thumbnailCollectionView.reloadData()
             return
         };
     }

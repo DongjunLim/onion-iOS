@@ -28,6 +28,7 @@ class FeedDetailViewController: UIViewController {
     
     
     func getRelativeFeedList(feedId: String){
+
         feedManager.getFeedList(){ result in
             self.relativefeedList = result
         }

@@ -9,7 +9,6 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-    let semaphore = DispatchSemaphore(value: 0)
     var feedList: FeedList! = nil
     var resultCount: Int = 0
     var feedManager = FeedManager()
@@ -26,8 +25,7 @@ class HomeViewController: UIViewController {
         
     }
     override func viewDidAppear(_ animated: Bool) {
-        resultCount = 10
-        self.thumbnailCollectionView.reloadData()
+        
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
@@ -37,6 +35,8 @@ class HomeViewController: UIViewController {
     func getHomeFeedThumbnail(){
         feedManager.getFeedList() { result in
             self.feedList = result
+            self.resultCount = 10
+            self.thumbnailCollectionView.reloadData()
             return
         };
     }
