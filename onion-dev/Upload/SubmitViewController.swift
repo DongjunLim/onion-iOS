@@ -11,17 +11,19 @@ import Alamofire
 import KeychainSwift
 
 struct ImageInfo: Codable {
-    let fileName, dominantColor: String
+    let fileName: String
+    let dominantColor: [String]
     let fashionClass: [FashionClass]
 }
 // MARK: - FashionClass
 struct FashionClass: Codable {
     let category: String
-    let percent: Double
+    let percentage: Double
 }
 
 class SubmitViewController: UIViewController {
     
+    var imageInfo: ImageInfo? = nil
     var feedImage: UIImage!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var feedImageView: UIImageView!
@@ -223,18 +225,26 @@ class SubmitViewController: UIViewController {
             print("URL setting error")
             return
         }
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
         
-        
-        Alamofire.request(url,
-                          method: .post,
-                          parameters: ["feedContent":content,"hashTag": ["hashTag1","hashTag2"],"additionalInfo":["height":self.userHeight.text,"gender":self.userGenderLabel.text,"age":self.userAgeLabel.text]])
-        .validate()
-            .responseJSON { response in
-                guard let statusCode = response.response?.statusCode else {
-                  print("Error while fetching remote rooms: \(String(describing:response.result.error))")
-                  return
-                }
-                print(statusCode)
+        do {
+            let data = try encoder.encode(imageInfo)
+            Alamofire.request(url,
+                              method: .post,
+                              parameters: ["feedContent":content,"hashTag": ["hashTag1","hashTag2"],"additionalInfo":["height":self.userHeight.text,"gender":self.userGenderLabel.text,"age":self.userAgeLabel.text],"fileInfo": data])
+            .validate()
+                .responseJSON { response in
+                    guard let statusCode = response.response?.statusCode else {
+                      print("Error while fetching remote rooms: \(String(describing:response.result.error))")
+                      return
+                    }
+                    print(statusCode)
+            }
+        } catch {
+            print(error)
         }
+        
+        
     }
 }

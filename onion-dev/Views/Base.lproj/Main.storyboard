@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="poM-Fn-5CJ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="JFk-wB-9Mt">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -197,7 +197,9 @@
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                             <color key="tintColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <state key="normal" title="팔로우"/>
+                                            <connections>
+                                                <action selector="followButtonPressed:" destination="hXY-Uc-O6S" eventType="touchUpInside" id="A7i-Ep-6lF"/>
+                                            </connections>
                                         </button>
                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="bx9-Br-5dU">
                                             <rect key="frame" x="8" y="646" width="341" height="54"/>
@@ -206,7 +208,7 @@
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                         </textView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="user32" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oo8-5X-ePC">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jack" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oo8-5X-ePC">
                                             <rect key="frame" x="71" y="603" width="103" height="29"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                             <nil key="textColor"/>
@@ -247,7 +249,7 @@
                                     <connections>
                                         <outlet property="FeedImage" destination="LtF-tO-7nh" id="chO-p6-oiv"/>
                                         <outlet property="contentTextView" destination="bx9-Br-5dU" id="lUz-8b-F1i"/>
-                                        <outlet property="followButton" destination="5LL-WU-Mai" id="UWO-DF-9WL"/>
+                                        <outlet property="followButton" destination="5LL-WU-Mai" id="g9B-XT-QeO"/>
                                         <outlet property="profilePhoto" destination="T9n-ql-QfX" id="2eo-p3-0VQ"/>
                                         <outlet property="username" destination="oo8-5X-ePC" id="VPQ-2s-uxU"/>
                                     </connections>

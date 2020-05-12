@@ -16,13 +16,10 @@ class HomeViewController: UIViewController {
     @IBOutlet weak var searchBar: UISearchBar!
     override func viewDidLoad() {
         self.getHomeFeedThumbnail()
-        
         super.viewDidLoad()
         searchBar.searchTextField.backgroundColor = UIColor.white
         self.thumbnailCollectionView.dataSource = self
         self.thumbnailCollectionView.delegate = self
-        
-        
     }
     override func viewDidAppear(_ animated: Bool) {
         
@@ -33,9 +30,9 @@ class HomeViewController: UIViewController {
         }
     }
     func getHomeFeedThumbnail(){
-        feedManager.getFeedList() { result in
+        feedManager.getHomeFeedList() { result in
             self.feedList = result
-            self.resultCount = 10
+            self.resultCount = 29
             self.thumbnailCollectionView.reloadData()
             return
         };
@@ -76,7 +73,8 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         
 
         cell.feed = self.feedList?.feedList[indexPath[1]]
-        FeedManager.getFeedImage(fileUrl: cell.feed!.feedThumbnailUrl) { result in
+        let url = "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/\(cell.feed!.feedThumbnailUrl)"
+        FeedManager.getFeedImage(fileUrl: url) { result in
             cell.thumbnail.image = result
         }
         cell.thumbnail.layer.cornerRadius = 5

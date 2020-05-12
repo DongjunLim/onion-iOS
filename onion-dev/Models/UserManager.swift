@@ -31,6 +31,49 @@ struct UserInfo: Codable {
 
 class UserManager{
     
+    static func follow(targetUserNickname: String, completion: @escaping (Int)->(Void)){
+        guard let token = KeychainSwift().get("AccessToken") else {
+            DispatchQueue.main.async {
+                
+            }
+            return
+        }
+        let header: HTTPHeaders = ["authorization": token]
+        guard let url = URL(string: "\(Server.url)/user/follow") else {
+            // URL 생성 안될경우 에러 핸들링
+            return
+        }
+        
+        Alamofire.request(url,method: .post,parameters: ["targetNickname":targetUserNickname],headers:header)
+            .validate()
+            .responseJSON { response in
+                let statusCode = response.response?.statusCode
+                completion(statusCode!)
+        }
+    }
+    
+    static func unFollow(targetUserNickname: String, completion: @escaping (Int)->(Void)){
+        guard let token = KeychainSwift().get("AccessToken") else {
+            DispatchQueue.main.async {
+                
+            }
+            return
+        }
+        let header: HTTPHeaders = ["authorization": token]
+        guard let url = URL(string: "\(Server.url)/user/follow") else {
+            // URL 생성 안될경우 에러 핸들링
+            return
+        }
+        
+        Alamofire.request(url,method: .delete,parameters: ["targetNickname":targetUserNickname],headers:header)
+        .validate()
+            .responseJSON { response in
+                let statusCode = response.response?.statusCode
+                print(statusCode)
+                completion(statusCode!)
+        }
+    }
+    
     static func requestUserInfo(){
         guard let token = KeychainSwift().get("AccessToken") else {
             DispatchQueue.main.async {

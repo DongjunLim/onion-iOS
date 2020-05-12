@@ -111,10 +111,12 @@ class FeedManager{
                 guard response.result.isSuccess else {
                     print("Error while fetching remote rooms: \(String(describing:response.result.error))")
                     return }
+                print(response.result.value)
                 
                 guard let jsonData = response.data else {
                     print("실패")
                     return }
+                
                 
                 do{
                     let decoder = JSONDecoder()
@@ -155,6 +157,7 @@ class FeedManager{
     
     
     static func getFeedImage(fileUrl: String, completion: @escaping (UIImage)-> Void){
+        print(fileUrl)
         guard let url = URL(string: fileUrl) else { return }
         do{
             let data = try Data(contentsOf: url)
