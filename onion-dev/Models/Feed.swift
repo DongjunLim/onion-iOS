@@ -32,6 +32,30 @@ struct Feed: Codable {
     }
 }
 
+// MARK: - ReplyList
+struct ReplyList: Codable {
+    let feedReplyList: [FeedReplyList]
+
+    enum CodingKeys: String, CodingKey {
+        case feedReplyList = "feed_reply_list"
+    }
+}
+
+// MARK: - FeedReplyList
+struct FeedReplyList: Codable {
+    let createdAt, id, userNickname, replyContent: String
+
+    enum CodingKeys: String, CodingKey {
+        case createdAt = "created_at"
+        case id = "_id"
+        case userNickname, replyContent
+    }
+}
+
+
+
+
+
 class FeedManager{
     var feedList: Feed?
     
@@ -99,6 +123,33 @@ class FeedManager{
                 }
                 return
         }
+    }
+    
+    func getReplyList(feedId: String, completion: @escaping (ReplyList)-> Void){
+        let token = KeychainSwift().get("AccessToken")
+        let headers: HTTPHeaders = ["authorization": token!]
+        guard let url = URL(string: "\(Server.url)/feed/reply?") else { return }
+        Alamofire.request(url, method: .get, parameters: ["feedId":feedId], headers: headers)
+        .validate()
+            .responseJSON { response in
+                guard response.result.isSuccess else {
+                    print("Error while fetching remote rooms: \(String(describing:response.result.error))")
+                    return }
+                guard let jsonData = response.data else {
+                    print("실패")
+                    return }
+                
+                do{
+                    let decoder = JSONDecoder()
+                    let result = try decoder.decode(ReplyList.self, from: jsonData)
+                    completion(result);
+                } catch {
+                    print(error.localizedDescription)
+                }
+                return
+                
+        }
+
     }
     
     func getHomeFeedList(completion: @escaping (FeedList)-> Void){

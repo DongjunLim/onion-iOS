@@ -13,15 +13,21 @@ class FeedDetailViewController: UIViewController {
     var cellCount = 0
     var relativefeedList: FeedList?
     var feedManager = FeedManager()
-
+    var replyList: ReplyList?
     @IBOutlet weak var FeedDetailCollectionView: UICollectionView!
     override func viewDidLoad() {
+//        feedManager.getReplyList(feedId: String(feedInfo!.feedID)) { ReplyList in
+//            self.replyList = ReplyList
+//        }
         super.viewDidLoad()
+        
 //        getRelativeFeedList(feedId: "empty")
     }
+    
+    
+    
 //    override func viewDidAppear(_ animated: Bool) {
-//        cellCount = 10
-//        FeedDetailCollectionView.reloadData()
+
 //        
 //    }
     
@@ -29,6 +35,9 @@ class FeedDetailViewController: UIViewController {
 //
 //        feedManager.getFeedList(){ result in
 //            self.relativefeedList = result
+    //        cellCount = 10
+    //        FeedDetailCollectionView.reloadData()
+    
 //        }
 //    }
 }
@@ -69,7 +78,11 @@ extension FeedDetailViewController: UICollectionViewDataSource {
             
             header.username.text = self.feedInfo?.authorNickname
             header.contentTextView.text = self.feedInfo?.content
+//            header.goToReplyViewButton.setTitle("댓글 \(replyList?.feedReplyList.count)개 모두 보기", for: .normal)
+            header.goToReplyViewButton.setTitle("댓글 3개 모두 보기", for: .normal)
             header.updateUI()
+            
+            
 
             return header
         default:
