@@ -26,11 +26,11 @@ class FeedCollectionReusableView: UICollectionReusableView {
         followButton.layer.cornerRadius = 5
         followButton.setTitle("팔로우", for: .normal)
         username.text = "Jack"
-        
     }
     
     
     @IBAction func goToReplyViewButtonPressed(_ sender: UIButton) {
+        
         
         
     }

@@ -9,6 +9,7 @@
 import UIKit
 
 class TimelineViewController: UIViewController {
+    var refreshControl = UIRefreshControl()
     var feedList: FeedList! = nil
     var feedCount = 0
     var feedManager = FeedManager()
@@ -16,18 +17,24 @@ class TimelineViewController: UIViewController {
     
     override func viewDidLoad() {
         self.getTimelineFeedThumbnail()
+        thumbnailCollectionView.refreshControl = self.refreshControl
         super.viewDidLoad()
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         
+    }
+    @objc func refresh(){
+        getTimelineFeedThumbnail()
+        self.refreshControl.endRefreshing()
     }
     
     func getTimelineFeedThumbnail(){
 
         self.feedManager.getFeedList() { result in
             self.feedList = result
-            self.feedCount = 10
+            self.feedCount = self.feedList.feedList.count
             self.thumbnailCollectionView.reloadData()
             return
         };
@@ -48,9 +55,15 @@ extension TimelineViewController: UICollectionViewDataSource, UICollectionViewDe
         }
 
         cell.feed = self.feedList?.feedList[indexPath[1]]
+        cell.username.setTitle(cell.feed?.authorNickname, for: .normal )
+        
         FeedManager.getFeedImage(fileUrl: cell.feed!.feedThumbnailUrl) { result in
             cell.thumbnail.image = result
+            FeedManager.getFeedImage(fileUrl: cell.feed!.profilePhotoURL){ profilePhotoImage in
+                cell.userProfilePhoto.setImage(profilePhotoImage, for: .normal)
+            }
         }
+        
         return cell
     }
     

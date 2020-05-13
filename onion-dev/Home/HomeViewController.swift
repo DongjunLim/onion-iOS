@@ -9,20 +9,27 @@
 import UIKit
 
 class HomeViewController: UIViewController {
+    var refreshControl = UIRefreshControl()
     var feedList: FeedList! = nil
     var resultCount: Int = 0
     var feedManager = FeedManager()
     @IBOutlet weak var thumbnailCollectionView: UICollectionView!
     @IBOutlet weak var searchBar: UISearchBar!
     override func viewDidLoad() {
+        thumbnailCollectionView.refreshControl = self.refreshControl
         self.getHomeFeedThumbnail()
         super.viewDidLoad()
         searchBar.searchTextField.backgroundColor = UIColor.white
         self.thumbnailCollectionView.dataSource = self
         self.thumbnailCollectionView.delegate = self
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
     }
     override func viewDidAppear(_ animated: Bool) {
         
+    }
+    @objc func refresh(){
+        getHomeFeedThumbnail()
+        self.refreshControl.endRefreshing()
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
@@ -32,7 +39,7 @@ class HomeViewController: UIViewController {
     func getHomeFeedThumbnail(){
         feedManager.getHomeFeedList() { result in
             self.feedList = result
-            self.resultCount = 29
+            self.resultCount = self.feedList.feedList.count
             self.thumbnailCollectionView.reloadData()
             return
         };
@@ -73,8 +80,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
         
 
         cell.feed = self.feedList?.feedList[indexPath[1]]
-        let url = "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/\(cell.feed!.feedThumbnailUrl)"
-        FeedManager.getFeedImage(fileUrl: url) { result in
+        FeedManager.getFeedImage(fileUrl:cell.feed!.feedThumbnailUrl) { result in
             cell.thumbnail.image = result
         }
         cell.thumbnail.layer.cornerRadius = 5

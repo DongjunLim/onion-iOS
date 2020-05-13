@@ -124,6 +124,17 @@ class FeedManager{
                 return
         }
     }
+    func addReply(feedId: String, content: String, completion: @escaping (Int)->Void){
+        let token = KeychainSwift().get("AccessToken")
+        let headers: HTTPHeaders = ["authorization": token!]
+        guard let url = URL(string: "\(Server.url)/feed/reply?") else { return }
+        Alamofire.request(url, method: .post, parameters: ["replyContent":content,"feedId":feedId], headers: headers)
+        .validate()
+            .responseJSON { response in
+                let statusCode = response.response?.statusCode
+                completion(statusCode!)
+        }
+    }
     
     func getReplyList(feedId: String, completion: @escaping (ReplyList)-> Void){
         let token = KeychainSwift().get("AccessToken")
@@ -208,8 +219,8 @@ class FeedManager{
     
     
     static func getFeedImage(fileUrl: String, completion: @escaping (UIImage)-> Void){
-        print(fileUrl)
-        guard let url = URL(string: fileUrl) else { return }
+        let requestUrl = "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/\(fileUrl)"
+        guard let url = URL(string: requestUrl) else { return }
         do{
             let data = try Data(contentsOf: url)
             completion(UIImage(data: data)!)

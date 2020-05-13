@@ -176,6 +176,7 @@ class SubmitViewController: UIViewController {
             self.Category3Button.titleLabel!.text = result.fashionClass[2].category
             self.Category4Button.titleLabel!.text = result.fashionClass[3].category
             self.Category5Button.titleLabel!.text = result.fashionClass[4].category
+            self.imageInfo = result
         }
         selectCategoryView.isHidden = false;
 

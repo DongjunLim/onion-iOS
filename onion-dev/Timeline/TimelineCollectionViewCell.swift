@@ -13,11 +13,10 @@ class TimelineCollectionViewCell: UICollectionViewCell {
     var feed: Feed?
     
     @IBOutlet weak var thumbnail: UIImageView!
+    @IBOutlet weak var username: UIButton!
+    @IBOutlet weak var userProfilePhoto: UIButton!
     
-    @IBOutlet weak var username: UILabel!
-    @IBOutlet weak var userProfileButton: UIButton!
-    @IBOutlet weak var ThumbnailButton: UIButton!
-    @IBOutlet weak var goToFeedDetailButton: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         let screenWidth = UIScreen.main.bounds.size.width

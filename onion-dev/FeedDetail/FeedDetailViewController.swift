@@ -21,26 +21,27 @@ class FeedDetailViewController: UIViewController {
 //        }
         super.viewDidLoad()
         
-//        getRelativeFeedList(feedId: "empty")
+        getRelativeFeedList(feedId: feedInfo!.feedID)
     }
     
     
     
-//    override func viewDidAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
 
-//        
-//    }
+        
+    }
     
-//    func getRelativeFeedList(feedId: String){
-//
-//        feedManager.getFeedList(){ result in
-//            self.relativefeedList = result
-    //        cellCount = 10
-    //        FeedDetailCollectionView.reloadData()
-    
-//        }
-//    }
+    func getRelativeFeedList(feedId: String){
+
+        feedManager.getRelativeFeedList(feedId:feedId){ result in
+            self.relativefeedList = result
+            self.cellCount = 10
+            self.FeedDetailCollectionView.reloadData()
+
+        }
+    }
 }
+
 
 
 extension FeedDetailViewController: UICollectionViewDataSource {
@@ -71,10 +72,10 @@ extension FeedDetailViewController: UICollectionViewDataSource {
                 return UICollectionReusableView()
             }
 
-
-//            FeedManager.getFeedImage(fileUrl: self.feedInfo!.photoUrl) { (result) in
-//                header.FeedImage.image = result
-//            }
+            print(self.feedInfo!.photoUrl)
+            FeedManager.getFeedImage(fileUrl: self.feedInfo!.photoUrl) { (result) in
+                header.FeedImage.image = result
+            }
             
             header.username.text = self.feedInfo?.authorNickname
             header.contentTextView.text = self.feedInfo?.content
@@ -101,7 +102,6 @@ extension FeedDetailViewController: UICollectionViewDataSource {
 extension FeedDetailViewController: UICollectionViewDelegateFlowLayout {
     // 셀 사이즈 어떻게 할까?
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
 
         return CGSize(width: 135, height: 180)
     }
