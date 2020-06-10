@@ -9,6 +9,7 @@
 import UIKit
 
 class FeedDetailViewController: UIViewController {
+    var productView: UIView!
     var feedInfo: Feed? = nil
     var cellCount = 0
     var relativefeedList: FeedList?
@@ -16,9 +17,9 @@ class FeedDetailViewController: UIViewController {
     var replyList: ReplyList?
     @IBOutlet weak var FeedDetailCollectionView: UICollectionView!
     override func viewDidLoad() {
-//        feedManager.getReplyList(feedId: String(feedInfo!.feedID)) { ReplyList in
-//            self.replyList = ReplyList
-//        }
+        FeedManager.getReplyList(feedId: String(feedInfo!.feedID)) { ReplyList in
+            self.replyList = ReplyList
+        }
         super.viewDidLoad()
         
         getRelativeFeedList(feedId: feedInfo!.feedID)
@@ -30,12 +31,45 @@ class FeedDetailViewController: UIViewController {
 
         
     }
+    @IBAction func productTagButtonPressed(_ sender: UIButton) {
+        moveProductView()
+    }
+    
+    @IBAction func goToReplyViewButtonPreseed(_ sender: UIButton) {
+        let replyVC = self.storyboard?.instantiateViewController(withIdentifier: "ReplyViewController") as! ReplyViewController
+        replyVC.modalPresentationStyle = .fullScreen
+        replyVC.feed = feedInfo
+        replyVC.replyList = replyList
+        self.present(replyVC, animated: true, completion: nil)
+    }
+    func moveProductView(){
+        let productVC = ProductListViewController()
+        productVC.modalPresentationStyle = .fullScreen
+        self.performSegue(withIdentifier: "goToProductSegue", sender: self)
+    }
     
     func getRelativeFeedList(feedId: String){
+        print(feedId)
 
         feedManager.getRelativeFeedList(feedId:feedId){ result in
             self.relativefeedList = result
-            self.cellCount = 10
+//            self.cellCount = result.feedList.count
+            print("컨트롤러")
+            if result.feedList.count > 10{
+                self.cellCount = 10
+            } else {
+                self.cellCount = result.feedList.count
+            }
+            for (i,element) in self.relativefeedList!.feedList.enumerated() {
+                if element.feedID == self.feedInfo?.feedID{
+                    self.relativefeedList?.feedList.remove(at: i)
+                    self.cellCount = self.relativefeedList?.feedList.count as! Int
+                    break
+                }
+            }
+            
+            
+            print("썸네일 숫자: \(self.cellCount)")
             self.FeedDetailCollectionView.reloadData()
 
         }
@@ -48,6 +82,7 @@ extension FeedDetailViewController: UICollectionViewDataSource {
     // 몇개 표시 할까?
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return cellCount
+        
     }
 
     // 셀 어떻게 표시 할까?
@@ -76,14 +111,18 @@ extension FeedDetailViewController: UICollectionViewDataSource {
             FeedManager.getFeedImage(fileUrl: self.feedInfo!.photoUrl) { (result) in
                 header.FeedImage.image = result
             }
-            
             header.username.text = self.feedInfo?.authorNickname
             header.contentTextView.text = self.feedInfo?.content
-//            header.goToReplyViewButton.setTitle("댓글 \(replyList?.feedReplyList.count)개 모두 보기", for: .normal)
-            header.goToReplyViewButton.setTitle("댓글 3개 모두 보기", for: .normal)
+            guard let cnt = replyList?.feedReplyList.count else {
+                header.goToReplyViewButton.setTitle("댓글 작성하기", for: .normal)
+                header.updateUI()
+                return header
+            }
+
+            header.goToReplyViewButton.setTitle("댓글 \(cnt)개 모두 보기", for: .normal)
             header.updateUI()
-            
-            
+
+
 
             return header
         default:

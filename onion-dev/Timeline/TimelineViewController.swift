@@ -30,9 +30,10 @@ class TimelineViewController: UIViewController {
         self.refreshControl.endRefreshing()
     }
     
+    
     func getTimelineFeedThumbnail(){
 
-        self.feedManager.getFeedList() { result in
+        self.feedManager.getTimelineFeedList() { result in
             self.feedList = result
             self.feedCount = self.feedList.feedList.count
             self.thumbnailCollectionView.reloadData()

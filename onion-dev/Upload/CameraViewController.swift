@@ -75,8 +75,10 @@ class CameraViewController: UIViewController, UIImagePickerControllerDelegate, U
                 PHPhotoLibrary.shared().performChanges({
                     PHAssetChangeRequest.creationRequestForAsset(from: image)
                 }, completionHandler: { (_, error) in
-                    self.imgView.image = image
-                    self.previewView.isHidden = true
+                    DispatchQueue.main.async{
+                        self.imgView.image = image
+                        self.previewView.isHidden = true
+                    }
                 })
             } else {
                 print(" error to save photo library")

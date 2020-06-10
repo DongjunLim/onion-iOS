@@ -9,7 +9,7 @@
 import UIKit
 
 class testViewController: UIViewController ,UIPickerViewDataSource, UIPickerViewDelegate{
-
+    
     @IBOutlet weak var testButton: UIButton!
     
     lazy var pickerView: UIPickerView = { // Generate UIPickerView.
@@ -36,6 +36,29 @@ class testViewController: UIViewController ,UIPickerViewDataSource, UIPickerView
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    
+    @IBAction func nextButtonPressed(_ sender: UIButton) {
+        let width = UIScreen.main.bounds.width
+        let height = 500
+        let yPoint = UIScreen.main.bounds.height - 500
+
+
+        let rect = CGRect(x: 0, y: yPoint, width: width, height: CGFloat(height))
+        
+
+
+        let productListVC = self.storyboard?.instantiateViewController(withIdentifier: "ProductListViewController") as! ProductListViewController
+        let productView = productListVC.view
+        productView!.frame = rect
+        self.view.addSubview(productView!)
+//        UIView.transition(with: self.view, duration: 2, options: [.beginFromCurrentState], animations: {
+//            self.view.addSubview(productView!)
+//        }, completion: nil)
+
+        
+    }
+    
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1

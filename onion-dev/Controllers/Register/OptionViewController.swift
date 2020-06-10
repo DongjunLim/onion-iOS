@@ -13,13 +13,13 @@ class OptionViewController: UIViewController {
     var registerManager: RegisterManager?
     var userInfo: [String: String] = [:]
     var user: User? = nil
-    lazy var heightPickerView: UIPickerView = {
-    let picker = UIPickerView()
-    picker.frame = CGRect(x: 0, y: self.view.bounds.height - 180, width: self.view.bounds.width, height: 180.0)
-    picker.backgroundColor = .white
-    picker.delegate = self
-    picker.dataSource = self;
-    return picker }()
+//    lazy var heightPickerView: UIPickerView = {
+//    let picker = UIPickerView()
+//    picker.frame = CGRect(x: 0, y: self.view.bounds.height - 180, width: self.view.bounds.width, height: 180.0)
+//    picker.backgroundColor = .white
+//    picker.delegate = self
+//    picker.dataSource = self;
+//    return picker }()
     var heightPickerViewData: [Int] = []
 
     
@@ -30,7 +30,7 @@ class OptionViewController: UIViewController {
         for i in 130...210{
             heightPickerViewData.append(i)
         }
-        self.view.addSubview(self.heightPickerView)
+//        self.view.addSubview(self.heightPickerView)
         // Do any additional setup after loading the view.
     }
     
@@ -43,7 +43,8 @@ class OptionViewController: UIViewController {
         //네트워크 전송
         registerManager!.join(email: String(userEmail), id: String(userNickname), pw: String(userPassword)) { token in
             DispatchQueue.main.async {
-                KeychainSwift().set(token, forKey: "AccessToken")
+//                KeychainSwift().set(token, forKey: "AccessToken")
+//                UserManager.requestUserInfo()
             }
         }
         
@@ -53,23 +54,23 @@ class OptionViewController: UIViewController {
 
 }
 
-
-extension OptionViewController: UIPickerViewDataSource, UIPickerViewDelegate{
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return heightPickerViewData.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? { return String(heightPickerViewData[row]) }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        print("row: \(row)")
-        print("value: \(heightPickerViewData[row])")
-    }
-    
-    
-    
-}
+//
+//extension OptionViewController: UIPickerViewDataSource, UIPickerViewDelegate{
+//    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+//        return 1
+//    }
+//
+//    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+//        return heightPickerViewData.count
+//    }
+//
+//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? { return String(heightPickerViewData[row]) }
+//
+//    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+//        print("row: \(row)")
+//        print("value: \(heightPickerViewData[row])")
+//    }
+//
+//
+//
+//}

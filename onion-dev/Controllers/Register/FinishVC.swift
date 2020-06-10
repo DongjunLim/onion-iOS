@@ -17,9 +17,12 @@ class FinishVC: UIViewController {
         // Do any additional setup after loading the view.
     }
     @IBAction func nextButtonPressed(_ sender: UIButton) {
-        let homeVC = HomeViewController()
-        homeVC.modalPresentationStyle = .fullScreen
-        self.performSegue(withIdentifier: "goToHomeViewfromRegisterView", sender: self)
+//        let homeVC = HomeViewController()
+//        homeVC.modalPresentationStyle = .fullScreen
+//        self.performSegue(withIdentifier: "goToHomeViewfromRegisterView", sender: self)
+        let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+        loginVC.modalPresentationStyle = .fullScreen
+        self.present(loginVC, animated: true, completion: nil)
     }
     
 }

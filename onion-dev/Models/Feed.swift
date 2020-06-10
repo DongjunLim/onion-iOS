@@ -11,7 +11,7 @@ import Alamofire
 import KeychainSwift
 
 struct FeedList: Codable {
-    let feedList: [Feed]
+    var feedList: [Feed]
 }
 
 struct Feed: Codable {
@@ -80,7 +80,6 @@ class FeedManager{
                     print("Error while fetching remote rooms: \(String(describing:response.result.error))")
                     return
                 }
-                
                 // 데이터가 없을 경우
                 guard let jsonData = response.data else {
                     print("실패")
@@ -90,9 +89,11 @@ class FeedManager{
                 do{
                     let decoder = JSONDecoder()
                     let result = try decoder.decode(FeedList.self, from: jsonData)
-                    completion(result);
+                    print("성공")
+                    completion(result)
                 } catch {
                     print(error.localizedDescription)
+                    print("파싱실패")
                 }
                 return
         }
@@ -124,7 +125,7 @@ class FeedManager{
                 return
         }
     }
-    func addReply(feedId: String, content: String, completion: @escaping (Int)->Void){
+    static func addReply(feedId: String, content: String, completion: @escaping (Int)->Void){
         let token = KeychainSwift().get("AccessToken")
         let headers: HTTPHeaders = ["authorization": token!]
         guard let url = URL(string: "\(Server.url)/feed/reply?") else { return }
@@ -136,7 +137,7 @@ class FeedManager{
         }
     }
     
-    func getReplyList(feedId: String, completion: @escaping (ReplyList)-> Void){
+    static func getReplyList(feedId: String, completion: @escaping (ReplyList)-> Void){
         let token = KeychainSwift().get("AccessToken")
         let headers: HTTPHeaders = ["authorization": token!]
         guard let url = URL(string: "\(Server.url)/feed/reply?") else { return }
@@ -162,8 +163,37 @@ class FeedManager{
         }
 
     }
+    func getKeywordFeedList(keyword: String, completion: @escaping (FeedList)-> Void){
+        let token = KeychainSwift().get("AccessToken")
+        let headers: HTTPHeaders = ["authorization": token!]
+        guard let url = URL(string: "\(Server.url)/feed/thumbnail/keyword?") else { return }
+        Alamofire.request(url, method: .get, parameters: ["keyword" : keyword],headers: headers)
+        .validate()
+            .responseJSON { response in
+                guard response.result.isSuccess else {
+                    print("Error while fetching remote rooms: \(String(describing:response.result.error))")
+                    return
+                }
+                guard let jsonData = response.data else {
+                    print("실패")
+                    return
+                }
+                do{
+                    let decoder = JSONDecoder()
+                    let result = try decoder.decode(FeedList.self, from: jsonData)
+                    completion(result);
+                } catch {
+                    print(error.localizedDescription)
+                }
+                return
+                
+        }
+        
+        
+
+    }
     
-    func getHomeFeedList(completion: @escaping (FeedList)-> Void){
+    static func getHomeFeedList(completion: @escaping (FeedList)-> Void){
         let token = KeychainSwift().get("AccessToken")
         let headers: HTTPHeaders = ["authorization": token!]
         guard let url = URL(string: "\(Server.url)/feed/thumbnail/personal?") else { return }
@@ -177,9 +207,8 @@ class FeedManager{
                 
                 guard let jsonData = response.data else {
                     print("실패")
-                    return }
-                
-                
+                    return
+                }
                 do{
                     let decoder = JSONDecoder()
                     let result = try decoder.decode(FeedList.self, from: jsonData)
@@ -190,6 +219,34 @@ class FeedManager{
                 return
         }
     }
+    
+    static func getUserFeedList(completion: @escaping (FeedList)-> Void){
+        let token = KeychainSwift().get("AccessToken")
+        let headers: HTTPHeaders = ["authorization": token!]
+        guard let url = URL(string: "\(Server.url)/feed/thumbnail/user?") else { return }
+        Alamofire.request(url,method: .get,headers: headers)
+            .validate()
+            .responseJSON { response in
+                guard response.result.isSuccess else {
+                    print("Error while fetching remote rooms: \(String(describing:response.result.error))")
+                    return }
+                print(response.result.value)
+                
+                guard let jsonData = response.data else {
+                    print("실패")
+                    return
+                }
+                do{
+                    let decoder = JSONDecoder()
+                    let result = try decoder.decode(FeedList.self, from: jsonData)
+                    completion(result);
+                } catch {
+                    print(error.localizedDescription)
+                }
+                return
+        }
+    }
+    
     
     func getTimelineFeedList(completion: @escaping (FeedList)-> Void){
         let token = KeychainSwift().get("AccessToken")
@@ -229,6 +286,48 @@ class FeedManager{
             return
         }
     }
+    
+    static func getFeedDetail(feedId: String, completion: @escaping (Feed)-> Void){
+        guard let token = KeychainSwift().get("AccessToken") else {
+            DispatchQueue.main.async {
+                // 로그인화면으로 이동
+            }
+            return
+        }
+        let headers: HTTPHeaders = ["authorization": token]
+        guard let url = URL(string: "\(Server.url)/feed?") else {
+            // URL 생성 안될경우 에러 핸들링
+            return
+        }
+        Alamofire.request(url,method: .get,headers: headers)
+            .validate()
+            .responseJSON { response in
+                guard response.result.isSuccess else {
+                    print("Error while fetching remote rooms: \(String(describing:response.result.error))")
+                    return }
+                print(response.result.value)
+                guard let jsonData = response.data else {
+                    print("실패")
+                    return
+                }
+                do{
+                    let decoder = JSONDecoder()
+                    let result = try decoder.decode(Feed.self, from: jsonData)
+                    completion(result);
+                } catch {
+                    print(error.localizedDescription)
+                }
+                return
+        }
+
+        
+        
+        
+        
+    }
+    
+    
+    
 }
 
 

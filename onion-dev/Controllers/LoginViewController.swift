@@ -22,6 +22,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var LoginViewBackGroundImage: UIImageView!
     
     override func viewDidLoad() {
+        KeychainSwift().clear()
         super.viewDidLoad()
         updateUI()
     }

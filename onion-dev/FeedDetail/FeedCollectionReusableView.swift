@@ -24,13 +24,19 @@ class FeedCollectionReusableView: UICollectionReusableView {
 
         followButton.layer.borderColor = UIColor.black.cgColor
         followButton.layer.cornerRadius = 5
-        followButton.setTitle("팔로우", for: .normal)
-        username.text = "Jack"
+        if isFollow == true {
+            self.followButton.backgroundColor = UIColor.black
+            self.followButton.setTitleColor(.white, for: .normal)
+            self.followButton.setTitle("팔로잉", for: .normal)
+        } else {
+            self.followButton.backgroundColor = UIColor.white
+            self.followButton.setTitleColor(.black, for: .normal)
+            self.followButton.setTitle("팔로우", for: .normal)
+        }
     }
     
     
     @IBAction func goToReplyViewButtonPressed(_ sender: UIButton) {
-        
         
         
     }
@@ -38,13 +44,14 @@ class FeedCollectionReusableView: UICollectionReusableView {
     
     
     @IBAction func followButtonPressed(_ sender: UIButton) {
-        if followButton.backgroundColor == UIColor.white{
+        if self.isFollow == false{
             UserManager.follow(targetUserNickname: username.text!) { statusCode in
                 print(statusCode)
                 if statusCode == 201{
                     self.followButton.backgroundColor = UIColor.black
                     self.followButton.setTitleColor(.white, for: .normal)
                     self.followButton.setTitle("팔로잉", for: .normal)
+                    self.isFollow = true
                 }
             }
         }
@@ -54,6 +61,7 @@ class FeedCollectionReusableView: UICollectionReusableView {
                     self.followButton.backgroundColor = UIColor.white
                     self.followButton.setTitleColor(.black, for: .normal)
                     self.followButton.setTitle("팔로우", for: .normal)
+                    self.isFollow = false
                 }
             }
         }

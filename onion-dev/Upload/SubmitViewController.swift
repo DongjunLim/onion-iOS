@@ -12,13 +12,43 @@ import KeychainSwift
 
 struct ImageInfo: Codable {
     let fileName: String
-    let dominantColor: [String]
+    let dominantColor: DominantColor
     let fashionClass: [FashionClass]
+    
+    func encodeValues() -> [Any]{
+        var result = Array<Any>()
+        for data in fashionClass{
+            let temp: [String: Any] = [
+                "category":data.category,
+                "percentage":data.percentage
+                ]
+            
+            result.append(temp)
+        }
+        return result
+    }
 }
 // MARK: - FashionClass
 struct FashionClass: Codable {
     let category: String
     let percentage: Double
+    
+    func encodeValues() -> [String: Any]{
+        return ["category": self.category,
+                "percentage":self.percentage]
+    }
+}
+
+struct DominantColor: Codable {
+    let h: Int
+    let s: Int
+    let v: Int
+    
+    func encodeValues() -> [String: Any]{
+        return ["h":self.h,
+                "s":self.s,
+                "v":self.v]
+    }
 }
 
 class SubmitViewController: UIViewController {
@@ -46,6 +76,13 @@ class SubmitViewController: UIViewController {
     @IBOutlet weak var Category3Button: UIButton!
     @IBOutlet weak var Category4Button: UIButton!
     @IBOutlet weak var Category5Button: UIButton!
+    
+    @IBOutlet weak var Category6Button: UIButton!
+    
+    @IBOutlet weak var Category7Button: UIButton!
+    @IBOutlet weak var Category8Button: UIButton!
+    
+    
     @IBOutlet weak var uploadButton: UIButton!
     
     @IBOutlet weak var lock: UIView!
@@ -82,6 +119,10 @@ class SubmitViewController: UIViewController {
         self.setCategoryButtonLayout(Category3Button)
         self.setCategoryButtonLayout(Category4Button)
         self.setCategoryButtonLayout(Category5Button)
+        self.setCategoryButtonLayout(Category6Button)
+        self.setCategoryButtonLayout(Category7Button)
+        self.setCategoryButtonLayout(Category8Button)
+
         
         submitButton.layer.cornerRadius = 5
         uploadButton.backgroundColor = UIColor.orange
@@ -136,8 +177,26 @@ class SubmitViewController: UIViewController {
         changeCategoryButtonUI(sender)
         guard let categoryName = sender.titleLabel?.text else { return }
         self.updateCategoryList(categoryName: categoryName)
-        
     }
+    
+    @IBAction func category6ButtonPressed(_ sender: UIButton) {
+        changeCategoryButtonUI(sender)
+        guard let categoryName = sender.titleLabel?.text else { return }
+        self.updateCategoryList(categoryName: categoryName)
+    }
+    
+    @IBAction func category7ButtonPressed(_ sender: UIButton) {
+        changeCategoryButtonUI(sender)
+        guard let categoryName = sender.titleLabel?.text else { return }
+        self.updateCategoryList(categoryName: categoryName)
+    }
+    
+    @IBAction func category8ButtonPressed(_ sender: UIButton) {
+        changeCategoryButtonUI(sender)
+        guard let categoryName = sender.titleLabel?.text else { return }
+        self.updateCategoryList(categoryName: categoryName)
+    }
+    
     
     func setCategoryButtonLayout(_ sender: UIButton){
         sender.layer.borderWidth = 2
@@ -171,20 +230,31 @@ class SubmitViewController: UIViewController {
         // 이미지 분석기다릴동안에 떠야 할 로딩화면 구현해야함
         
         uploadImageFile(image: image) { result in
-            self.Category1Button.titleLabel!.text = result.fashionClass[0].category
-            self.Category2Button.titleLabel!.text = result.fashionClass[1].category
-            self.Category3Button.titleLabel!.text = result.fashionClass[2].category
-            self.Category4Button.titleLabel!.text = result.fashionClass[3].category
-            self.Category5Button.titleLabel!.text = result.fashionClass[4].category
+            self.Category1Button.setTitle(result.fashionClass[0].category, for: .normal)
+            self.Category2Button.setTitle(result.fashionClass[1].category, for: .normal)
+            self.Category3Button.setTitle(result.fashionClass[2].category, for: .normal)
+            self.Category4Button.setTitle(result.fashionClass[3].category, for: .normal)
+            self.Category5Button.setTitle(result.fashionClass[4].category, for: .normal)
+            self.Category6Button.setTitle(result.fashionClass[5].category, for: .normal)
+            self.Category7Button.setTitle(result.fashionClass[6].category, for: .normal)
+            self.Category8Button.setTitle(result.fashionClass[7].category, for: .normal)
+
             self.imageInfo = result
+            self.selectCategoryView.isHidden = false;
         }
-        selectCategoryView.isHidden = false;
 
     }
     @IBAction func uploadButtonPressed(_ sender: UIButton) {
-        // 1. 설정한 카테고리로 해서 서버에 데이터 전송
-        // 2. 피드 디테일 화면으로 이동
+        print(self.contentTextView.text)
+        let homeVC = HomeViewController()
+        homeVC.modalPresentationStyle = .fullScreen
+        self.performSegue(withIdentifier: "uploadFinish", sender: self)
+//        uploadContent(content: self.contentTextView.text, hashTag: "hashTag"){ statusCode in
+//            if statusCode != 400 {
+//
+//            }
     }
+    
     func uploadImageFile(image: UIImage, completion: @escaping (ImageInfo)->Void){
         let token = KeychainSwift().get("AccessToken")
         guard let imageData = image.jpegData(compressionQuality: 0.5) else {
@@ -205,6 +275,7 @@ class SubmitViewController: UIViewController {
                             case .success(let upload, _, _):
                                 upload.validate()
                                 upload.responseJSON { response in
+                                    print(response.result.value)
                                     let decoder = JSONDecoder()
                                     do{
                                         let imageInfo = try decoder.decode(ImageInfo.self, from: response.data!)
@@ -221,31 +292,37 @@ class SubmitViewController: UIViewController {
         )
     }
     
-    func uploadContent(content: String, hashTag: [String]){
-        guard let url = URL(string: "\(Server.url)/feed/") else{
+    func uploadContent(content: String, hashTag: String, completion: @escaping (Int)->Void){
+        let token = KeychainSwift().get("AccessToken")
+        guard let url = URL(string: "\(Server.url)/feed") else{
             print("URL setting error")
             return
         }
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
+        let name = imageInfo!.fileName
+        let color = imageInfo!.dominantColor
+        let fClass = imageInfo!.fashionClass
+        
         
         do {
-            let data = try encoder.encode(imageInfo)
+            let newColor = color.encodeValues()
+            let newFC = imageInfo!.encodeValues()
+
             Alamofire.request(url,
                               method: .post,
-                              parameters: ["feedContent":content,"hashTag": ["hashTag1","hashTag2"],"additionalInfo":["height":self.userHeight.text,"gender":self.userGenderLabel.text,"age":self.userAgeLabel.text],"fileInfo": data])
+                              parameters: ["feedContent":content,"hashTag": String(self.hashTagTextField.text!),"height":self.userHeight.text,"gender":self.userGenderLabel.text,"age":self.userAgeLabel.text,"fileName":name, "dominantColor":newColor,"fashionClass":newFC], headers: ["authorization": token!])
             .validate()
                 .responseJSON { response in
                     guard let statusCode = response.response?.statusCode else {
                       print("Error while fetching remote rooms: \(String(describing:response.result.error))")
                       return
                     }
-                    print(statusCode)
+                    completion(response.response!.statusCode)
+                    
             }
         } catch {
             print(error)
         }
-        
-        
     }
 }

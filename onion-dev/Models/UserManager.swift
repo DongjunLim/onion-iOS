@@ -28,6 +28,19 @@ struct UserInfo: Codable {
     }
 }
 
+struct Profile: Codable {
+    let numOfFollowUser, numOfFollower: Int
+    let bookmarkList, bucketList: [String]
+    let profilePhotoURL: String
+    let userNickname: String
+
+    enum CodingKeys: String, CodingKey {
+        case numOfFollowUser, numOfFollower, bookmarkList, bucketList, userNickname
+        case profilePhotoURL = "profilePhotoUrl"
+    }
+}
+
+
 
 class UserManager{
     
@@ -73,6 +86,44 @@ class UserManager{
                 completion(statusCode!)
         }
     }
+    
+    static func getMyProfile(completion: @escaping (Profile)->(Void)){
+        let token = KeychainSwift().get("AccessToken")
+        let headers: HTTPHeaders = ["authorization": token!]
+        guard let url = URL(string: "\(Server.url)/user/profile/my-profile?") else { return }
+        
+        Alamofire.request(url, method: .get, headers: headers)
+        .validate()
+            .responseJSON { response in
+                guard response.result.isSuccess else {
+                    // 통신 에러시
+                    print("Error while fetching remote rooms: \(String(describing:response.result.error))")
+                    return
+                }
+                
+                // 데이터가 없을 경우
+                guard let jsonData = response.data else {
+                    print("실패")
+                    return
+                }
+                
+                do{
+                    let decoder = JSONDecoder()
+                    
+                    let result = try decoder.decode(Profile.self, from: jsonData)
+                    print("디코딩 성공")
+                    completion(result)
+                    
+                    
+                } catch {
+                    print("디코딩 실패")
+                    print(error.localizedDescription)
+                }
+        }
+        
+        
+    }
+    
     
     static func requestUserInfo(){
         guard let token = KeychainSwift().get("AccessToken") else {
