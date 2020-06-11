@@ -63,7 +63,7 @@ class FeedDetailViewController: UIViewController {
             for (i,element) in self.relativefeedList!.feedList.enumerated() {
                 if element.feedID == self.feedInfo?.feedID{
                     self.relativefeedList?.feedList.remove(at: i)
-                    self.cellCount = self.relativefeedList?.feedList.count as! Int
+                    self.cellCount = self.relativefeedList!.feedList.count as! Int
                     break
                 }
             }
