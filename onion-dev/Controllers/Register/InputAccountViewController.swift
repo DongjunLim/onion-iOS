@@ -20,6 +20,7 @@ class InputAccountViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         registerManager = RegisterManager()
+        self.hideKeyboardWhenTappedAround()
     }
     
     
@@ -56,5 +57,18 @@ class InputAccountViewController: UIViewController {
                 pwTextField.layer.cornerRadius = 5
             }
         }
+    }
+}
+
+extension InputAccountViewController {
+    // 키보드말고 다른곳을 눌렀을때 키보드가 내려가게 하는 함수
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(InputAccountViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }

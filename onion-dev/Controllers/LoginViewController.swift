@@ -25,6 +25,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         KeychainSwift().clear()
         super.viewDidLoad()
         updateUI()
+        self.hideKeyboardWhenTappedAround()
     }
     
     func updateUI(){
@@ -104,5 +105,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
 }
 
+extension LoginViewController {
+    // 키보드말고 다른곳을 눌렀을때 키보드가 내려가게 하는 함수
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}
 
 

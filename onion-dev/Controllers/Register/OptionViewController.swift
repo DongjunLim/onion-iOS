@@ -30,6 +30,7 @@ class OptionViewController: UIViewController {
         for i in 130...210{
             heightPickerViewData.append(i)
         }
+        self.hideKeyboardWhenTappedAround()
 //        self.view.addSubview(self.heightPickerView)
         // Do any additional setup after loading the view.
     }
@@ -74,3 +75,16 @@ class OptionViewController: UIViewController {
 //
 //
 //}
+
+extension OptionViewController {
+    // 키보드말고 다른곳을 눌렀을때 키보드가 내려가게 하는 함수
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(OptionViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+}

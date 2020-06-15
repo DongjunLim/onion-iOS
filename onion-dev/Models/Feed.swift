@@ -186,12 +186,8 @@ class FeedManager{
                     print(error.localizedDescription)
                 }
                 return
-                
         }
-        
-        
-
-    }
+     }
     
     static func getHomeFeedList(completion: @escaping (FeedList)-> Void){
         let token = KeychainSwift().get("AccessToken")

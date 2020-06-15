@@ -17,7 +17,6 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         getUserFeedThumbnail()
-
         super.viewDidLoad()
     }
 
