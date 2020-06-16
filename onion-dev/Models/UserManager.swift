@@ -44,6 +44,43 @@ struct Profile: Codable {
 
 class UserManager{
     
+    static func updateProfile(completion: @escaping (Int) -> (Void)){
+        
+        guard let nickname = UserDefaults.standard.value(forKey: "userNickname") else { return }
+        guard let age = UserDefaults.standard.value(forKey: "userAge") else { return }
+        guard let height = UserDefaults.standard.value(forKey: "userHeight") else { return }
+        guard let address1 = UserDefaults.standard.value(forKey: "userAddress1") else { return }
+        guard let address2 = UserDefaults.standard.value(forKey: "userAddress2") else { return }
+        guard let instagramUrl = UserDefaults.standard.value(forKey: "userInstagramUrl") else { return }
+    
+        
+        guard let token = KeychainSwift().get("AccessToken") else {
+            DispatchQueue.main.async {
+                
+            }
+            return
+        }
+        let header: HTTPHeaders = ["authorization": token]
+        guard let url = URL(string: "\(Server.url)/user/profile/") else {
+            // URL 생성 안될경우 에러 핸들링
+            return
+        }
+        
+        Alamofire.request(url, method: .put, parameters:["userNickname": nickname,
+        "userAge": age,
+        "userHeight": height,
+        "userAddress1": address1,
+        "userAddress2": address2,
+        "userInstagramUrl": instagramUrl],headers: header)
+        .validate()
+            .responseJSON { response in
+                let statusCode = response.response?.statusCode
+                completion(statusCode!)
+
+        }
+        
+    }
+    
     static func follow(targetUserNickname: String, completion: @escaping (Int)->(Void)){
         guard let token = KeychainSwift().get("AccessToken") else {
             DispatchQueue.main.async {
@@ -161,7 +198,7 @@ class UserManager{
                     UserDefaults.standard.set(result.userAge, forKey: "userAge")
                     UserDefaults.standard.set(result.userGender, forKey: "userGender")
                     UserDefaults.standard.set(result.userHeight, forKey: "userHeight")
-                    UserDefaults.standard.set(result.userAddress[0], forKey: "userAddess1")
+                    UserDefaults.standard.set(result.userAddress[0], forKey: "userAddress1")
                     UserDefaults.standard.set(result.userAddress[1], forKey: "userAddress2")
                     UserDefaults.standard.set(result.userInstagramURL, forKey: "userInstagramUrl")
                     UserDefaults.standard.set(result.userProfilephotoURL, forKey: "userProfilePhotoUrl")

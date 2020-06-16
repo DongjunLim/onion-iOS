@@ -13,13 +13,26 @@ class ProfileViewController: UIViewController {
     var myProfile: Profile! = nil
     var feedList: FeedList! = nil
     var resultCount: Int = 0
-    @IBOutlet weak var profileView: UICollectionView!
+    var currentView: UIView?
+    var newView: UIView?
     
+    @IBOutlet weak var profileView: UICollectionView!
     override func viewDidLoad() {
         getUserFeedThumbnail()
         super.viewDidLoad()
     }
 
+    
+    @IBAction func editButtonPressed(_ sender: UIButton) {
+
+        
+        let editVC = self.storyboard?.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
+        self.present(editVC, animated: true, completion: nil)
+    }
+    
+    
+    
+    
     @IBAction func logoutButtonPressed(_ sender: UIButton) {
         let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
         loginVC.modalPresentationStyle = .fullScreen
@@ -79,7 +92,6 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
                     header.setProfilePhotoUI()
                 }
             }
-            
             return header
         default:
             return UICollectionReusableView()

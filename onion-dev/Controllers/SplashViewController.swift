@@ -21,7 +21,7 @@ class SplashViewController: UIViewController {
             return
         }
         // 서버에서 토큰 검증할 수 있는 로직 추가해야함
-        
+        UserManager.requestUserInfo()
         self.moveMainView()
     }
     
