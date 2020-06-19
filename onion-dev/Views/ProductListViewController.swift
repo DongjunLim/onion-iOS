@@ -32,7 +32,14 @@ class ProductListViewController: UIViewController {
     ]
     override func viewDidLoad() {
         super.viewDidLoad()
+        
     }
+    
+    @IBAction func dismissButtonPressed(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    
     func getProductThumbnail(imageUrl: String, completion: @escaping (UIImage)->(Void)){
         let requestUrl = imageUrl
         guard let url = URL(string: requestUrl) else { return }

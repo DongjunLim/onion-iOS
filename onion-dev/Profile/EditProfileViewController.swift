@@ -31,6 +31,8 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         self.picker.delegate = self // picker delegate
         // Do any additional setup after loading the view.
     }
+    override func viewWillDisappear(_ animated: Bool) {
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         guard let nickname = UserDefaults.standard.value(forKey: "userNickname") else { return }
@@ -72,22 +74,14 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
                 return
             }
         }
+        self.presentingViewController!.dismiss(animated: true)
         
-        dismiss(animated: true, completion: nil)
     }
     @IBAction func goToLibraryButtonPressed(_ sender: UIButton) {
         present(picker, animated: false, completion: nil)
     }
     
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         var selectedImage: UIImage?
@@ -98,7 +92,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         }
         self.profileImageView.image = selectedImage!
         self.uploadImageFile(image: selectedImage!) { (statusCode) in
-            if statusCode == 201 {
+            if statusCode == 200 {
                 return
             } else {
                 return
@@ -130,7 +124,7 @@ extension EditProfileViewController {
                                      fileName: "img.jpg",
                                      mimeType: "image/jpeg")
         },
-                         to: "\(Server.url)/profile/photo",
+                         to: "\(Server.url)/user/profile/photo",
                          headers: ["authorization": token!],
                          encodingCompletion: { encodingResult in
                             switch encodingResult {

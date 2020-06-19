@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+
 class ProfileViewController: UIViewController {
     @IBOutlet weak var profilePhoto: UIImageView!
     var myProfile: Profile! = nil
@@ -18,14 +20,14 @@ class ProfileViewController: UIViewController {
     
     @IBOutlet weak var profileView: UICollectionView!
     override func viewDidLoad() {
+        
         getUserFeedThumbnail()
         super.viewDidLoad()
     }
 
+
     
     @IBAction func editButtonPressed(_ sender: UIButton) {
-
-        
         let editVC = self.storyboard?.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
         self.present(editVC, animated: true, completion: nil)
     }
@@ -37,7 +39,6 @@ class ProfileViewController: UIViewController {
         let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
         loginVC.modalPresentationStyle = .fullScreen
         self.present(loginVC, animated: true, completion: nil)
-        
     }
     func getUserFeedThumbnail(){
         FeedManager.getUserFeedList() { result in
