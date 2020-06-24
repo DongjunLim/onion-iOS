@@ -9,11 +9,14 @@
 import UIKit
 
 class FeedDetailViewController: UIViewController {
+    @IBOutlet weak var headerBar: UINavigationBar!
     var productView: UIView!
     var feedInfo: Feed? = nil
     var cellCount = 0
     var relativefeedList: FeedList?
+    var isFollow = false
     var feedManager = FeedManager()
+    @IBOutlet weak var headerBarItems: UINavigationItem!
     var replyList: ReplyList?
     @IBOutlet weak var FeedDetailCollectionView: UICollectionView!
     override func viewDidLoad() {
@@ -23,6 +26,7 @@ class FeedDetailViewController: UIViewController {
         super.viewDidLoad()
         
         getRelativeFeedList(feedId: feedInfo!.feedID)
+        headerBarItems.title = feedInfo?.authorNickname
     }
     
     
@@ -33,6 +37,9 @@ class FeedDetailViewController: UIViewController {
     }
     @IBAction func productTagButtonPressed(_ sender: UIButton) {
         moveProductView()
+    }
+    @IBAction func backButtonPressed(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func goToReplyViewButtonPreseed(_ sender: UIButton) {
@@ -53,7 +60,7 @@ class FeedDetailViewController: UIViewController {
 
         feedManager.getRelativeFeedList(feedId:feedId){ result in
             self.relativefeedList = result
-//            self.cellCount = result.feedList.count
+            self.cellCount = result.feedList.count
             print("컨트롤러")
             if result.feedList.count > 10{
                 self.cellCount = 10
@@ -106,12 +113,25 @@ extension FeedDetailViewController: UICollectionViewDataSource {
             guard let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "FeedCollectionReusableView", for: indexPath) as? FeedCollectionReusableView else {
                 return UICollectionReusableView()
             }
+            UserManager.isFollow(targetNickname: self.feedInfo!.authorNickname) { statusCode in
+                if statusCode == 200{
+                    header.isFollow = true
+                } else{
+                    header.isFollow = false
+                }
+            }
 
             print(self.feedInfo!.photoUrl)
             FeedManager.getFeedImage(fileUrl: self.feedInfo!.photoUrl) { (result) in
                 header.FeedImage.image = result
             }
             header.username.text = self.feedInfo?.authorNickname
+            UserManager.getUserProfilePhoto(userNickname: self.feedInfo!.authorNickname) { (image)  in
+                header.profilePhoto.setImage(image, for: .normal)
+                header.profilePhoto.layer.cornerRadius = header.profilePhoto.frame.height/2
+                header.profilePhoto.imageView!.layer.cornerRadius = header.profilePhoto.frame.height/2
+            }
+            
             header.contentTextView.text = self.feedInfo?.content
             guard let cnt = replyList?.feedReplyList.count else {
                 header.goToReplyViewButton.setTitle("댓글 작성하기", for: .normal)
@@ -134,6 +154,7 @@ extension FeedDetailViewController: UICollectionViewDataSource {
         let select = collectionView.cellForItem(at: indexPath) as! RelativeThumbnailCollectionViewCell
         let feedDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "FeedDetailViewController") as! FeedDetailViewController
         feedDetailVC.feedInfo = select.feed
+        feedDetailVC.modalPresentationStyle = .fullScreen
         self.present(feedDetailVC, animated: true, completion: nil)
     }
 }

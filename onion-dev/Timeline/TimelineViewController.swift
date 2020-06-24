@@ -72,6 +72,7 @@ extension TimelineViewController: UICollectionViewDataSource, UICollectionViewDe
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let select = collectionView.cellForItem(at: indexPath) as! TimelineCollectionViewCell
         let feedDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "FeedDetailViewController") as! FeedDetailViewController
+        feedDetailVC.modalPresentationStyle = .fullScreen
         feedDetailVC.feedInfo = select.feed
         self.present(feedDetailVC, animated: true, completion: nil)
     }

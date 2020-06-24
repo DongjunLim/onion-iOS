@@ -82,7 +82,7 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
             }
 
             
-            
+            header.setProfilePhotoUI()
             UserManager.getMyProfile(){ result in
                 self.myProfile = result
                 header.followCountLabel.text = String(self.myProfile.numOfFollowUser)

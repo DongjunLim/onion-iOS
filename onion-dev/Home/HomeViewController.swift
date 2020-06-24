@@ -116,6 +116,7 @@ extension HomeViewController: UICollectionViewDataSource, UICollectionViewDelega
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let select = collectionView.cellForItem(at: indexPath) as! HomeCollectionViewCell
         let feedDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "FeedDetailViewController") as! FeedDetailViewController
+        feedDetailVC.modalPresentationStyle = .fullScreen
         feedDetailVC.feedInfo = select.feed
         self.present(feedDetailVC, animated: true, completion: nil)
     }

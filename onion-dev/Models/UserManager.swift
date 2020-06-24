@@ -124,6 +124,36 @@ class UserManager{
         }
     }
     
+    static func isFollow(targetNickname: String, completion: @escaping (Int)->(Void)){
+        guard let token = KeychainSwift().get("AccessToken") else { return }
+        
+        let header: HTTPHeaders = ["authorization": token]
+        guard let url = URL(string: "\(Server.url)/user/follow") else {
+            // URL 생성 안될경우 에러 핸들링
+            return
+        }
+        Alamofire.request(url,method: .get,parameters: ["targetNickname":targetNickname],headers:header)
+        .validate()
+            .responseJSON { response in
+                let statusCode = response.response?.statusCode
+                print(statusCode)
+                completion(statusCode!)
+        }
+    }
+    
+    static func getUserProfilePhoto(userNickname: String, completion: @escaping (UIImage)->(Void)){
+        let requestUrl = "https://onionphotostorage.s3.ap-northeast-2.amazonaws.com/profile/\(userNickname).jpg"
+        guard let url = URL(string: requestUrl) else { return }
+        do{
+            let data = try Data(contentsOf: url)
+            completion(UIImage(data: data)!)
+        }catch let err{
+            print("Error : \(err.localizedDescription)")
+            completion(UIImage(systemName: "person.circle")!)
+            return
+        }
+    }
+    
     static func getMyProfile(completion: @escaping (Profile)->(Void)){
         let token = KeychainSwift().get("AccessToken")
         let headers: HTTPHeaders = ["authorization": token!]
