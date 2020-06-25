@@ -30,12 +30,12 @@ struct UserInfo: Codable {
 
 struct Profile: Codable {
     let numOfFollowUser, numOfFollower: Int
-    let bookmarkList, bucketList: [String]
+//    let bookmarkList, bucketList: [String]
     let profilePhotoURL: String
     let userNickname: String
 
     enum CodingKeys: String, CodingKey {
-        case numOfFollowUser, numOfFollower, bookmarkList, bucketList, userNickname
+        case numOfFollowUser, numOfFollower, userNickname
         case profilePhotoURL = "profilePhotoUrl"
     }
 }

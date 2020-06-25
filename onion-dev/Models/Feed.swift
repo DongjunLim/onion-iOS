@@ -199,7 +199,7 @@ class FeedManager{
                 guard response.result.isSuccess else {
                     print("Error while fetching remote rooms: \(String(describing:response.result.error))")
                     return }
-                print(response.result.value)
+                print(response.result.value as Any)
                 
                 guard let jsonData = response.data else {
                     print("실패")
@@ -226,7 +226,34 @@ class FeedManager{
                 guard response.result.isSuccess else {
                     print("Error while fetching remote rooms: \(String(describing:response.result.error))")
                     return }
-                print(response.result.value)
+                print(response.result.value as Any)
+                
+                guard let jsonData = response.data else {
+                    print("실패")
+                    return
+                }
+                do{
+                    let decoder = JSONDecoder()
+                    let result = try decoder.decode(FeedList.self, from: jsonData)
+                    completion(result);
+                } catch {
+                    print(error.localizedDescription)
+                }
+                return
+        }
+    }
+    
+    static func getUserBookmarkFeedList(completion: @escaping (FeedList)-> Void){
+        let token = KeychainSwift().get("AccessToken")
+        let headers: HTTPHeaders = ["authorization": token!]
+        guard let url = URL(string: "\(Server.url)/feed/thumbnail/bookmark?") else { return }
+        Alamofire.request(url,method: .get,headers: headers)
+            .validate()
+            .responseJSON { response in
+                guard response.result.isSuccess else {
+                    print("Error while fetching remote rooms: \(String(describing:response.result.error))")
+                    return }
+                print(response.result.value as Any)
                 
                 guard let jsonData = response.data else {
                     print("실패")

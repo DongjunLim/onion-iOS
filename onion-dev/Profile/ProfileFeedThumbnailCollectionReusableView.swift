@@ -14,7 +14,6 @@ class ProfileFeedThumbnailCollectionReusableView: UICollectionReusableView {
     @IBOutlet weak var followerCountLabel: UILabel!
     @IBOutlet weak var followCountLabel: UILabel!
     @IBOutlet weak var userNicknameLabel: UILabel!
-    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     @IBOutlet weak var editButton: UIButton!
     

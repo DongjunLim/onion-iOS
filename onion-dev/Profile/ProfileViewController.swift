@@ -12,20 +12,41 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     @IBOutlet weak var profilePhoto: UIImageView!
+    var refreshControl = UIRefreshControl()
     var myProfile: Profile! = nil
     var feedList: FeedList! = nil
+    var bookmarkList: FeedList! = nil
+    var bookmarkCount: Int = 0
     var resultCount: Int = 0
     var currentView: UIView?
     var newView: UIView?
     
+    @IBOutlet weak var profileCollectionView: UICollectionView!
     @IBOutlet weak var profileView: UICollectionView!
     override func viewDidLoad() {
+        profileCollectionView.refreshControl = self.refreshControl
         
+        profileCollectionView.dataSource = self
+        profileCollectionView.delegate = self
         getUserFeedThumbnail()
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         super.viewDidLoad()
     }
+    
+    // 새로고침 함수
+    @objc func refresh(){
+        self.getUserFeedThumbnail()
+        self.refreshControl.endRefreshing()
+    }
 
-
+    @IBAction func segmentedControlChanged(_ sender: UISegmentedControl) {
+        if sender.selectedSegmentIndex == 0 {
+            getUserFeedThumbnail()
+        } else if sender.selectedSegmentIndex == 1{
+            getBookmarkFeedThumbnail()
+        }
+    }
+    
     
     @IBAction func editButtonPressed(_ sender: UIButton) {
         let editVC = self.storyboard?.instantiateViewController(withIdentifier: "EditProfileViewController") as! EditProfileViewController
@@ -33,21 +54,30 @@ class ProfileViewController: UIViewController {
     }
     
     
-    
-    
     @IBAction func logoutButtonPressed(_ sender: UIButton) {
         let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
         loginVC.modalPresentationStyle = .fullScreen
         self.present(loginVC, animated: true, completion: nil)
     }
+    
+    
     func getUserFeedThumbnail(){
         FeedManager.getUserFeedList() { result in
             self.feedList = result
             self.resultCount = self.feedList.feedList.count
-            print(self.feedList.feedList)
             self.profileView.reloadData()
             return
-        };
+        }
+    }
+    
+    
+    func getBookmarkFeedThumbnail(){
+        FeedManager.getUserBookmarkFeedList { (result) in
+            self.feedList = result
+            self.resultCount = self.feedList.feedList.count
+            self.profileView.reloadData()
+            return
+        }
     }
 }
 
@@ -97,6 +127,14 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         default:
             return UICollectionReusableView()
         }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let select = collectionView.cellForItem(at: indexPath) as! ProfileFeedThumbnailCollectionViewCell
+        let feedDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "FeedDetailViewController") as! FeedDetailViewController
+        feedDetailVC.feedInfo = select.feed
+        feedDetailVC.modalPresentationStyle = .fullScreen
+        self.present(feedDetailVC, animated: true, completion: nil)
     }
 }
 
